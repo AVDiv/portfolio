@@ -4,7 +4,7 @@ import "./globals.css";
 
 import { Partytown } from "@qwik.dev/partytown/react";
 import Head from "next/head";
-import { AmplitudeProvider } from "../context";
+import { AmplitudeProvider, LoaderProvider } from "../context";
 
 const tiltNeon = Tilt_Neon({
   subsets: ["latin"],
@@ -31,7 +31,9 @@ export default function RootLayout({
       </Head>
       <body className={` ${tiltNeon.variable} antialiased`}>
         <AmplitudeProvider>
-          {children}
+          <LoaderProvider>
+            {children}
+          </LoaderProvider>
         </AmplitudeProvider>
       </body>
     </html>

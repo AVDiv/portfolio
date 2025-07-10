@@ -16,4 +16,62 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-tilt-neon), sans-serif;
+  /* Prevent horizontal scroll bars */
+  overflow-x: hidden;
+}
+
+/* Custom animations for loader transitions */
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleOut {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(3);
+    opacity: 0;
+  }
+}
+
+.animate-fade-out {
+  animation: fadeOut 0.8s ease-in-out forwards;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.8s ease-in-out forwards;
+}
+
+.animate-scale-out {
+  animation: scaleOut 1s cubic-bezier(0.22, 0.61, 0.36, 1) forwards;
+}
+
+/* Hide scrollbars but allow scrolling for auto-scroll elements */
+.auto-scroll-hidden {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.auto-scroll-hidden::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
 }
