@@ -10,6 +10,8 @@
     "partytown": "partytown copylib public/~partytown"
   },
   "dependencies": {
+    "@amplitude/analytics-browser": "^2.18.1",
+    "@amplitude/plugin-session-replay-browser": "^1.20.0",
     "@million/lint": "^1.0.14",
     "@qwik.dev/partytown": "^0.11.1",
     "next": "^15.3.5",
