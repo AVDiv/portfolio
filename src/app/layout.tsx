@@ -1,19 +1,16 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Tilt_Neon } from "next/font/google";
 import "./globals.css";
 
 import { Partytown } from "@qwik.dev/partytown/react";
 import Head from "next/head";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const tiltNeon = Tilt_Neon({
   subsets: ["latin"],
+  variable: "--font-tilt-neon",
+  weight: ["400"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -28,11 +25,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Head>
+        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <Partytown debug={true} forward={["dataLayer.push"]} />
       </Head>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body className={` ${tiltNeon.variable} antialiased`}>
         {children}
       </body>
     </html>
