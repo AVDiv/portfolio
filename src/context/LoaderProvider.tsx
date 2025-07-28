@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import Loader, { LoaderHandle } from '@/components/Loader';
+import Loader from '@/components/Loader';
 
 interface LoaderContextType {
   isLoading: boolean;
@@ -26,17 +26,13 @@ export function LoaderProvider({ children }: LoaderProviderProps) {
   const [isLoading, setIsLoading] = useState(true);
   const [isLoaderComplete, setIsLoaderComplete] = useState(false);
   const [showContent, setShowContent] = useState(false);
-  const [exitAnimation, setExitAnimation] = useState(false);
 
   // Reference to the loader component
-  const loaderRef = React.useRef<React.ElementRef<typeof Loader>>(null);
+  const loaderRef = React.useRef<React.ComponentRef<typeof Loader>>(null);
   
   // Handle the exit animation when both site and loader are ready
   useEffect(() => {
     if (!isLoading && isLoaderComplete) {
-      // Start exit animation
-      setExitAnimation(true);
-      
       // After animation completes, show the actual content
       const timer = setTimeout(() => {
         setShowContent(true);
@@ -52,11 +48,41 @@ export function LoaderProvider({ children }: LoaderProviderProps) {
     }
   }, [isLoading, isLoaderComplete]);
 
-  // Auto-mark the site as loaded after a reasonable timeout (failsafe)
+  // Auto-detect when the page is ready and mark as loaded
+  useEffect(() => {
+    const checkPageReady = () => {
+      // Check if the document is fully loaded
+      if (document.readyState === 'complete') {
+        // Wait a bit more for any dynamic content to load
+        const timer = setTimeout(() => {
+          setIsLoading(false);
+        }, 1500); // Give some time for the boot sequence to show
+        
+        return () => clearTimeout(timer);
+      }
+    };
+
+    // Check immediately
+    checkPageReady();
+
+    // Also listen for the load event
+    if (document.readyState !== 'complete') {
+      const handleLoad = () => {
+        setTimeout(() => {
+          setIsLoading(false);
+        }, 1500);
+      };
+
+      window.addEventListener('load', handleLoad);
+      return () => window.removeEventListener('load', handleLoad);
+    }
+  }, []);
+
+  // Failsafe: Auto-mark the site as loaded after a maximum timeout
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 5000); // 5 seconds max loading time
+    }, 15000);
     
     return () => clearTimeout(timer);
   }, []);
@@ -69,12 +95,6 @@ export function LoaderProvider({ children }: LoaderProviderProps) {
     <LoaderContext.Provider value={{ isLoading, setIsLoading }}>
       {!showContent && (
         <Loader ref={loaderRef} onComplete={handleLoaderComplete} />
-      )}
-      
-      {exitAnimation && !showContent && (
-        <div className="fixed inset-0 bg-black z-50 animate-fade-out flex items-center justify-center">
-          <div className="w-16 h-16 rounded-full bg-white animate-scale-out"></div>
-        </div>
       )}
       
       <div className={`${!showContent ? 'invisible' : 'animate-fade-in'}`}>

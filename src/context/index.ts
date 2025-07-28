@@ -1,2 +1,3 @@
 export { AmplitudeProvider, useAmplitude } from './AmplitudeProvider';
-export { LoaderProvider, useLoader } from './LoaderProvider';
+// LoaderProvider is now replaced with React Suspense
+// export { LoaderProvider, useLoader } from './LoaderProvider';

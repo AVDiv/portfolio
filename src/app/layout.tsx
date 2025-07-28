@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
-import { Tilt_Neon } from "next/font/google";
+import { Sometype_Mono } from "next/font/google";
 import "./globals.css";
 
 import { Partytown } from "@qwik.dev/partytown/react";
 import Head from "next/head";
-import { AmplitudeProvider, LoaderProvider } from "../context";
+import { AmplitudeProvider } from "../context";
+import { LoaderProvider } from "../context/LoaderProvider";
 
-const tiltNeon = Tilt_Neon({
+const sometype_mono = Sometype_Mono({
   subsets: ["latin"],
-  variable: "--font-tilt-neon",
-  weight: ["400"],
+  variable: "--font-sometype-mono",
+  weight: "variable",
 });
 
 
@@ -27,9 +28,11 @@ export default function RootLayout({
     <html lang="en">
       <Head>
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        <script src="https://unpkg.com/three@0.134.0/build/three.min.js"></script>
+        <script src="https://unpkg.com/vanta@0.5.24/dist/vanta.topology.min.js"></script>
         <Partytown debug={true} forward={["dataLayer.push"]} />
       </Head>
-      <body className={` ${tiltNeon.variable} antialiased`}>
+      <body className={` antialiased`}>
         <AmplitudeProvider>
           <LoaderProvider>
             {children}

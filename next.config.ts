@@ -16,6 +16,8 @@ const nextConfig: NextConfig = {
 
 };
 
-export default MillionLint.next({
-  rsc: true
-})(nextConfig);
+// export default MillionLint.next({
+//   rsc: false, // Disable RSC for this project
+// })(nextConfig);
+
+export default nextConfig;

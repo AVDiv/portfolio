@@ -1,144 +1,93 @@
 'use client';
 
-import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
+import React, { useState, useEffect, useImperativeHandle, forwardRef } from 'react';
 import { bootMessages } from '@/data/boot-messages';
-
-interface LoaderProps {
-  onComplete?: () => void;
-}
 
 export interface LoaderHandle {
   forceComplete: () => void;
 }
 
-const Loader = forwardRef<LoaderHandle, LoaderProps>(function LoaderComponent({ onComplete }, ref) {
-  const [displayedLines, setDisplayedLines] = useState<Array<{message: string, timestamp: string}>>([]);
-  const [isComplete, setIsComplete] = useState(false);
-  // Track if we're force-completing due to page being ready before log is done
-  const [isForceCompleting, setIsForceCompleting] = useState(false);
-  
-  // Method to force completion - will be called by the parent component
+interface LoaderProps {
+  onComplete?: () => void;
+}
+
+const Loader = forwardRef<LoaderHandle, LoaderProps>(({ onComplete }, ref) => {
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+  const [displayedMessages, setDisplayedMessages] = useState<string[]>([]);
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [forceCompleteFlag, setForceCompleteFlag] = useState(false);
+
   useImperativeHandle(ref, () => ({
     forceComplete: () => {
-      setIsForceCompleting(true);
+      setForceCompleteFlag(true);
     }
   }));
 
-  // Reference for auto-scrolling
-  const logsContainerRef = React.useRef<HTMLDivElement>(null);
-  
-  // More robust auto-scroll effect
   useEffect(() => {
-    const scrollToBottom = () => {
-      if (logsContainerRef.current) {
-        // Direct assignment for more reliable scrolling
-        logsContainerRef.current.scrollTop = logsContainerRef.current.scrollHeight;
-      }
-    };
-    
-    // Use requestAnimationFrame for better timing with the render cycle
-    requestAnimationFrame(() => {
-      scrollToBottom();
-      
-      // Double-check with a small delay as backup
-      setTimeout(scrollToBottom, 50);
-    });
-  }, [displayedLines]);
-  
-  // Additional scroll check on mount and window resize
-  useEffect(() => {
-    const scrollToBottom = () => {
-      if (logsContainerRef.current) {
-        logsContainerRef.current.scrollTop = logsContainerRef.current.scrollHeight;
-      }
-    };
-    
-    // Initial scroll
-    scrollToBottom();
-    
-    // Handle window resize events
-    window.addEventListener('resize', scrollToBottom);
-    
-    return () => {
-      window.removeEventListener('resize', scrollToBottom);
-    };
-  }, []);
+    if (isCompleted) return;
 
-  useEffect(() => {
-    let currentIndex = 0;
-    let timeoutId: NodeJS.Timeout | null = null;
+    let timeoutId: NodeJS.Timeout;
 
-    const processNextMessage = () => {
-      if (currentIndex < bootMessages.length) {
-        const currentMessage = bootMessages[currentIndex];
-        const timestamp = new Date().toLocaleTimeString();
+    const showNextMessage = () => {
+      if (currentMessageIndex < bootMessages.length && !forceCompleteFlag) {
+        const currentMessage = bootMessages[currentMessageIndex];
+        setDisplayedMessages(prev => [...prev, currentMessage.message]);
+        setCurrentMessageIndex(prev => prev + 1);
         
-        setDisplayedLines(prev => {
-          const newLines = [...prev, { message: currentMessage.message, timestamp }];
-          // Force scroll after state update
-          setTimeout(() => {
-            if (logsContainerRef.current) {
-              logsContainerRef.current.scrollTop = logsContainerRef.current.scrollHeight;
-            }
-          }, 0);
-          return newLines;
-        });
-        
-        currentIndex++;
-        
-        // If we're force completing (because the page loaded before logs finished),
-        // use a much faster speed to quickly show the remaining logs
-        const delay = isForceCompleting ? 10 : currentMessage.sleep;
-        
-        // Use the sleep time from the data file
-        timeoutId = setTimeout(processNextMessage, delay);
-      } else if (!isComplete) {
-        // Hold the final screen for a moment before completing
-        timeoutId = setTimeout(() => {
-          setIsComplete(true);
-          onComplete?.();
-        }, 500);
+        // Schedule next message with appropriate delay
+        timeoutId = setTimeout(showNextMessage, currentMessage.sleep || 100);
+      } else {
+        // All messages shown or force complete triggered
+        setIsCompleted(true);
+        onComplete?.();
       }
     };
 
-    // Start the process
-    processNextMessage();
+    // Start showing messages
+    timeoutId = setTimeout(showNextMessage, 100);
 
-    // Cleanup function
     return () => {
       if (timeoutId) clearTimeout(timeoutId);
     };
-  }, [isComplete, onComplete, isForceCompleting]);
+  }, [currentMessageIndex, onComplete, forceCompleteFlag, isCompleted]);
+
+  // Auto-scroll to bottom
+  const messagesEndRef = React.useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [displayedMessages]);
 
   return (
-    <div className="fixed inset-0 bg-black text-green-400 font-mono text-sm overflow-hidden">
-      <div 
-        ref={logsContainerRef} 
-        className="p-4 h-full overflow-y-auto auto-scroll-hidden"
-        style={{ maxHeight: '100vh', display: 'flex', flexDirection: 'column' }}
-      >
-        <div className="space-y-0 flex-grow">
-          {displayedLines.map((line, index) => (
-            <div key={index} className="whitespace-nowrap">
-              <span className="text-gray-500 mr-2">[{line.timestamp}]</span>
-              {line.message}
+    <div className="fixed inset-0 bg-black flex items-center justify-center z-50 h-full w-full overflow-hidden">
+      <div className="w-full max-w-4xl h-full flex flex-col font-mono text-green-400 text-sm p-8">
+        <div className="flex-1 overflow-y-auto">
+          {displayedMessages.map((message, index) => (
+            <div key={index} className="mb-1 whitespace-pre-wrap">
+              <span className="text-green-300">[{(Date.now() / 1000).toFixed(6)}]</span> {message}
             </div>
           ))}
+          <div ref={messagesEndRef} />
         </div>
         
-        {displayedLines.length >= bootMessages.length && !isComplete && (
-          <div className="mt-4 text-white" key="login-prompt">
-            <div className="mb-2">
-              Debian GNU/Linux 12 portfolio tty1
-            </div>
-            <div className="mb-4">
-              portfolio login: <span className="animate-pulse">█</span>
-            </div>
+        {!isCompleted && (
+          <div className="flex items-center mt-4">
+            <div className="w-2 h-4 bg-green-400 animate-pulse mr-2"></div>
+            <span>Initializing system...</span>
+          </div>
+        )}
+        
+        {isCompleted && (
+          <div className="text-center mt-4">
+            <div className="text-green-300 mb-2">System ready.</div>
+            <div className="w-8 h-8 border-2 border-green-400 border-t-transparent rounded-full animate-spin mx-auto"></div>
           </div>
         )}
       </div>
     </div>
   );
 });
+
+Loader.displayName = 'Loader';
 
 export default Loader;
