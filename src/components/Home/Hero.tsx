@@ -47,7 +47,7 @@ const Hero: React.FC<HeroProps> = () => {
 
   return (
     <section 
-      id="hero" 
+      id="landing" 
       className='w-full h-[200vh] relative'
     >
       {/* Entrance Animation Holder */}
