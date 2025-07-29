@@ -4,6 +4,7 @@ import { useLoader } from "@/context/LoaderProvider";
 import { animate, ScrollObserver } from 'animejs';
 import Hero from "@/components/Home/Hero";
 import Projects from "@/components/Home/Projects";
+import Noise from "@/components/Animations/Noise/Noise";
 
 export default function Home() {
   const cameraFrameRef = useRef<HTMLDivElement>(null);
@@ -70,6 +71,15 @@ export default function Home() {
       <div className="fixed top-0 left-0 h-screen w-screen z-10" ref={cameraFrameRef}>
         <div className="h-full w-full shadow-[0_0_0_90px_rgba(0,0,0,1)] overflow-hidden" ref={cameraViewportRef}>
         </div>
+      </div>
+      <div className="fixed top-0 left-0 h-full w-screen z-20">
+        <Noise 
+          patternSize={1}
+          patternScaleX={1}
+          patternScaleY={1}
+          patternRefreshInterval={1}
+          patternAlpha={9} 
+        />
       </div>
       <div className="w-full">
           {/* Sections of the page */}
