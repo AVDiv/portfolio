@@ -1,0 +1,209 @@
+import React, { useEffect, useRef } from "react";
+import { animate, createScope, ScrollObserver } from 'animejs';
+
+interface Project {
+  id: number;
+  title: string;
+  description: string;
+  technologies: string[];
+  image?: string;
+  liveUrl?: string;
+  githubUrl?: string;
+}
+
+const Projects: React.FC = () => {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const backgroundRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
+  const scrollObserver = useRef<any>(null);
+  const scope = useRef<any>(null);
+
+  // Sample projects data - you can replace this with your actual projects
+  const projects: Project[] = [
+    {
+      id: 1,
+      title: "Fluid Simulation",
+      description: "Interactive fluid dynamics simulation with WebGL and GLSL shaders",
+      technologies: ["WebGL", "GLSL", "JavaScript", "Physics"],
+      liveUrl: "#",
+      githubUrl: "#"
+    },
+    {
+      id: 2,
+      title: "Portfolio Website",
+      description: "Modern portfolio website with advanced animations and 3D effects",
+      technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Three.js"],
+      liveUrl: "#",
+      githubUrl: "#"
+    },
+    {
+      id: 3,
+      title: "AI Dashboard",
+      description: "Machine learning dashboard with real-time data visualization",
+      technologies: ["React", "Python", "TensorFlow", "D3.js"],
+      liveUrl: "#",
+      githubUrl: "#"
+    }
+  ];
+
+  useEffect(() => {
+    if (sectionRef.current && backgroundRef.current && contentRef.current) {
+      // Create scope for animations
+      scope.current = createScope({ root: sectionRef.current });
+
+      // Set up scroll observer for background transition and content animations
+      scrollObserver.current = new ScrollObserver({
+        target: sectionRef.current,
+        onUpdate: (self) => {
+          const progress = self.progress;
+          
+          if (backgroundRef.current && contentRef.current) {
+            // Background transition from black to white
+            const whiteOpacity = Math.min(progress * 2, 1);
+            backgroundRef.current.style.opacity = whiteOpacity.toString();
+            
+            // Content fade in and slide up
+            if (progress > 0.2) {
+              const contentProgress = Math.min((progress - 0.2) / 0.6, 1);
+              const translateY = (1 - contentProgress) * 50;
+              const opacity = contentProgress;
+              
+              animate(contentRef.current, {
+                translateY: `${translateY}px`,
+                opacity: opacity,
+                duration: 0,
+              });
+            }
+          }
+        }
+      });
+
+      // Cleanup function
+      return () => {
+        if (scrollObserver.current) {
+          scrollObserver.current.revert();
+        }
+        if (scope.current) {
+          scope.current.revert();
+        }
+      };
+    }
+  }, []);
+
+  return (
+    <section 
+      ref={sectionRef}
+      id="projects" 
+      className="relative min-h-[200vh] w-full"
+    >
+      {/* Black to White background transition */}
+      <div className="fixed top-0 left-0 w-full h-full bg-black z-0" />
+      <div 
+        ref={backgroundRef}
+        className="fixed top-0 left-0 w-full h-full bg-white z-1"
+        style={{ opacity: 0 }}
+      />
+      
+      {/* Content */}
+      <div className="relative z-10">
+        {/* Spacer to allow scroll before content appears */}
+        <div className="h-screen" />
+        
+        {/* Projects content */}
+        <div 
+          ref={contentRef}
+          className="min-h-screen px-6 md:px-12 lg:px-20 py-20"
+          style={{ opacity: 0, transform: 'translateY(50px)' }}
+        >
+          <div className="max-w-7xl mx-auto">
+            {/* Section header */}
+            <div className="mb-16 text-center">
+              <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-black mb-6">
+                Projects<span className="text-red-600">.</span>
+              </h2>
+              <p className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto">
+                A collection of my work showcasing creativity, technical skill, and passion for innovation.
+              </p>
+            </div>
+
+            {/* Projects grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {projects.map((project, index) => (
+                <div 
+                  key={project.id}
+                  className="group bg-white border border-gray-200 rounded-lg p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
+                >
+                  {/* Project image placeholder */}
+                  <div className="w-full h-48 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg mb-6 flex items-center justify-center">
+                    <span className="text-gray-500 text-sm">Project Image</span>
+                  </div>
+                  
+                  {/* Project info */}
+                  <div>
+                    <h3 className="text-2xl font-bold text-black mb-3 group-hover:text-red-600 transition-colors">
+                      {project.title}
+                    </h3>
+                    <p className="text-gray-600 mb-4 leading-relaxed">
+                      {project.description}
+                    </p>
+                    
+                    {/* Technologies */}
+                    <div className="flex flex-wrap gap-2 mb-6">
+                      {project.technologies.map((tech, techIndex) => (
+                        <span 
+                          key={techIndex}
+                          className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full border"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                    
+                    {/* Project links */}
+                    <div className="flex gap-4">
+                      {project.liveUrl && (
+                        <a 
+                          href={project.liveUrl}
+                          className="px-4 py-2 bg-black text-white rounded-lg hover:bg-red-600 transition-colors"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          Live Demo
+                        </a>
+                      )}
+                      {project.githubUrl && (
+                        <a 
+                          href={project.githubUrl}
+                          className="px-4 py-2 border border-black text-black rounded-lg hover:bg-black hover:text-white transition-colors"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          GitHub
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Additional content to show more work */}
+            <div className="mt-20 text-center">
+              <p className="text-lg text-gray-600 mb-8">
+                Want to see more of my work?
+              </p>
+              <a 
+                href="#contact"
+                className="inline-block px-8 py-3 bg-black text-white rounded-lg hover:bg-red-600 transition-colors"
+              >
+                Get In Touch
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Projects;
