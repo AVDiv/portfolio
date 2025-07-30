@@ -64,7 +64,6 @@ const Projects: React.FC = () => {
             enter: {target: "top", container: "top+=20vh"},
             leave: {target: "center-=35vh", container: "top"},
             sync: 'outCubic',
-            debug: true,
           })
         });
 
@@ -78,7 +77,6 @@ const Projects: React.FC = () => {
             enter: {target: "center-=35vh", container: "top+=20vh"},
             leave: {target: "center-=30vh", container: "top+=20vh"},
             sync: 'outCubic',
-            debug: true,
           })
         });
       }

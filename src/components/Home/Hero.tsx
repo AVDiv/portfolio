@@ -63,7 +63,6 @@ const Hero: React.FC<HeroProps> = ({ rootRefSetter }) => {
           enter: {target: "top", container: "top"},
           leave: {target: "bottom", container: "bottom"},
           sync: 'linear',
-          debug: true,
         })
       });
 
@@ -77,7 +76,6 @@ const Hero: React.FC<HeroProps> = ({ rootRefSetter }) => {
           enter: {target: "top", container: "top"},
           leave: {target: "bottom", container: "bottom"},
           sync: 'linear',
-          debug: true,
         })
       });;
       

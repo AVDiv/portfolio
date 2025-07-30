@@ -228,7 +228,6 @@ export default function Home() {
             enter: {target: "top", container: "top"},
             leave: {target: "bottom", container: "bottom"},
             sync: 'linear',
-            debug: true,
           })
         });
 
@@ -241,7 +240,6 @@ export default function Home() {
             enter: {target: "top", container: "top"},
             leave: {target: "bottom", container: "bottom"},
             sync: 'linear',
-            debug: true,
           })
         });
       }
