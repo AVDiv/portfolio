@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { useLoader } from "@/context/LoaderProvider";
-import { animate, createScope, onScroll, ScrollObserver } from 'animejs';
+import { waapi, createScope, onScroll, ScrollObserver } from 'animejs';
 import Hero from "@/components/Home/Hero";
 import About from "@/components/Home/About";
 import Projects from "@/components/Home/Projects";
@@ -221,7 +221,7 @@ export default function Home() {
     scope.current = createScope({ root }).add(self => {
       // Camera viewport frame animation on scroll
       if (cameraFrameRef.current && cameraViewportRef.current && heroRootRef.current) {
-        animate(cameraFrameRef.current, {
+        waapi.animate(cameraFrameRef.current, {
           padding: `80px`,
           ease: 'linear',
           autoplay: onScroll({
@@ -229,11 +229,11 @@ export default function Home() {
             container: document.body,
             enter: {target: "top", container: "top"},
             leave: {target: "bottom", container: "bottom"},
-            sync: 'linear',
+            sync: 0.95,
           })
         });
 
-        animate(cameraViewportRef.current, {
+        waapi.animate(cameraViewportRef.current, {
           borderRadius: `8px`,
           ease: 'linear',
           autoplay: onScroll({
@@ -241,7 +241,7 @@ export default function Home() {
             container: document.body,
             enter: {target: "top", container: "top"},
             leave: {target: "bottom", container: "bottom"},
-            sync: 'linear',
+            sync: 0.95,
           })
         });
       }

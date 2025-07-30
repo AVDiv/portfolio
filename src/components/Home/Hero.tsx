@@ -1,7 +1,7 @@
 import React, { Ref, useEffect, useRef, useState } from "react";
 import DarkVeil from "@/components/Animations/DarkVeil/DarkVeil";
 import { useLoader } from "@/context/LoaderProvider";
-import { animate, createScope, onScroll } from "animejs";
+import { waapi, createScope, onScroll } from "animejs";
 
 interface HeroProps {
   rootRefSetter?: Ref<any>;
@@ -22,18 +22,18 @@ const Hero: React.FC<HeroProps> = ({ rootRefSetter }) => {
       scope.current = createScope({ root }).add(self => {
         self?.add("initHero", () => {
           if (animationHolderRef.current && slideHolderRef.current) {
-            animate(animationHolderRef.current, {
+            waapi.animate(animationHolderRef.current, {
               padding: '0px',
               duration: 1500,
               ease: 'outQuart',
               delay: 1500,
             });
-            animate(animationHolderRef.current, {
+            waapi.animate(animationHolderRef.current, {
               backgroundColor: '#FFFFFF',
               duration: 50,
               delay: 3000,
             });
-            animate(slideHolderRef.current, {
+            waapi.animate(slideHolderRef.current, {
               borderRadius: '0px',
               duration: 1500,
               delay: 1500,
@@ -52,9 +52,8 @@ const Hero: React.FC<HeroProps> = ({ rootRefSetter }) => {
   // OnScroll Blur Effect - separate from scope
   useEffect(() => {
     if (slideHolderRef.current && contentOverlayRef.current && root.current && animationComplete) {
-      console.log("Setting up scroll animation");
-      
-      const scrollBlurAnimation = animate(slideHolderRef.current, {
+
+      const scrollBlurAnimation = waapi.animate(slideHolderRef.current, {
         filter: 'blur(20px)',
         ease: 'linear',
         autoplay: onScroll({
@@ -62,11 +61,11 @@ const Hero: React.FC<HeroProps> = ({ rootRefSetter }) => {
           container: document.body,
           enter: {target: "top", container: "top"},
           leave: {target: "bottom", container: "bottom"},
-          sync: 'linear',
+          sync: 0.95,
         })
       });
 
-      const scrollContentOverlayAnimation = animate(contentOverlayRef.current, {
+      const scrollContentOverlayAnimation = waapi.animate(contentOverlayRef.current, {
         opacity: -0.1,
         scale: 0.9,
         ease: 'linear',
@@ -75,7 +74,7 @@ const Hero: React.FC<HeroProps> = ({ rootRefSetter }) => {
           container: document.body,
           enter: {target: "top", container: "top"},
           leave: {target: "bottom", container: "bottom"},
-          sync: 'linear',
+          sync: 0.9,
         })
       });;
       

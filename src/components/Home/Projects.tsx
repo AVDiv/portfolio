@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { animate, createScope, onScroll } from "animejs";
+import { waapi, animate, createScope, onScroll, ScrollObserver } from "animejs";
 import Dither from "@/components/Animations/Dither/Dither";
 import ProjectCard from "../Cards/ProjectCard";
 
@@ -51,9 +51,8 @@ const Projects: React.FC = () => {
   useEffect(() => {
     scope.current = createScope({ root }).add(self => {
       if (root.current && projectsContentRef.current && backgroundRef.current) {
-        // backgroundRef.current.style.filter = 'blur(1.5px)';
 
-        animate(projectsContentRef.current, {
+        waapi.animate(projectsContentRef.current, {
           filter: 'blur(0px)',
           scale: 1.05,
           opacity: 1,
@@ -68,15 +67,38 @@ const Projects: React.FC = () => {
         });
 
         animate(backgroundRef.current, {
-          opacity: 0.3,
-          filter: 'blur(1.5px)',
-          ease: 'outCubic',
+          opacity: [
+            { to: 0, ease: 'outCubic' },
+            { to: 0.3, ease: 'outCubic' },
+          ],
+          filter: [
+            { to: 'blur(30px)', ease: 'outCubic' },
+            { to: 'blur(1.5px)', ease: 'outCubic' },
+          ],
+          alternate: true,
           autoplay: onScroll({
             target: root.current,
             container: document.body,
-            enter: {target: "center-=35vh", container: "top+=20vh"},
-            leave: {target: "center-=30vh", container: "top+=20vh"},
+            enter: {target: "top+=15vh", container: "top+=20vh"},
+            leave: {target: "top+=20vh", container: "top+=20vh"},
             sync: 'outCubic',
+            debug: true, // Enable debugging for animejs
+          })
+        });
+
+        animate(backgroundRef.current, {
+          opacity: [
+            { to: 0.3, ease: 'outCubic' },
+            { to: 0, ease: 'outCubic' },
+          ],
+          alternate: true,
+          autoplay: onScroll({
+            target: root.current,
+            container: document.body,
+            enter: {target: "bottom-=20vh", container: "bottom-=20vh"},
+            leave: {target: "bottom-=15vh", container: "bottom-=20vh"},
+            sync: 'outCubic',
+            debug: true, // Enable debugging for animejs
           })
         });
       }
