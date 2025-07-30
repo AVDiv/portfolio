@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { animate, createScope, onScroll, ScrollObserver } from "animejs";
+import { animate, createScope, onScroll } from "animejs";
 import Dither from "@/components/Animations/Dither/Dither";
 import ProjectCard from "../Cards/ProjectCard";
 
@@ -67,36 +67,29 @@ const Projects: React.FC = () => {
         });
 
         animate(backgroundRef.current, {
-          opacity: [
-            { to: 0, ease: 'outCubic' },
-            { to: 0.3, ease: 'outCubic' },
-          ],
-          filter: [
-            { to: 'blur(30px)', ease: 'outCubic' },
-            { to: 'blur(1.5px)', ease: 'outCubic' },
-          ],
-          alternate: true,
-          autoplay: onScroll({
-            target: root.current,
-            container: document.body,
-            enter: {target: "top+=15vh", container: "top+=20vh"},
-            leave: {target: "top+=20vh", container: "top+=20vh"},
-            sync: 'outCubic',
-          })
-        });
-
-        animate(backgroundRef.current, {
-          opacity: [
-            { to: 0.3, ease: 'outCubic' },
-            { to: 0, ease: 'outCubic' },
-          ],
-          alternate: true,
+          opacity: { from: 0.3, to: 0, ease: 'outCubic' },
+          filter: { from: 'blur(1.5px)', to: 'blur(30px)', ease: 'outCubic' },
+          composition: 'none',
           autoplay: onScroll({
             target: root.current,
             container: document.body,
             enter: {target: "bottom-=20vh", container: "bottom-=20vh"},
             leave: {target: "bottom-=15vh", container: "bottom-=20vh"},
-            sync: 'outCubic',
+            sync: 'linear',
+          })
+        });
+
+        animate(backgroundRef.current, {
+          opacity: { from: 0, to: 0.3, ease: 'outCubic' }, 
+          filter: { from: 'blur(30px)', to: 'blur(1.5px)', ease: 'outCubic' },
+          ease: 'outCubic',
+          composition: 'add',
+          autoplay: onScroll({
+            target: root.current,
+            container: document.body,
+            enter: {target: "top+=13vh", container: "top+=20vh"},
+            leave: {target: "top+=18vh", container: "top+=20vh"},
+            sync: 'linear',
           })
         });
       }
