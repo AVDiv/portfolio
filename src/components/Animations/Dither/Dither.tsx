@@ -1,9 +1,15 @@
 /* eslint-disable react/no-unknown-property */
-import { useRef, useState, useEffect, forwardRef } from "react";
-import { Canvas, useFrame, useThree, ThreeEvent } from "@react-three/fiber";
+import { useRef, useState, useEffect, forwardRef, useMemo } from "react";
+import { useFrame, useThree, ThreeEvent } from "@react-three/fiber";
+import dynamic from "next/dynamic";
 import { EffectComposer, wrapEffect } from "@react-three/postprocessing";
 import { Effect } from "postprocessing";
 import * as THREE from "three";
+
+// Dynamically import Canvas with SSR disabled
+const Canvas = dynamic(() => import("@react-three/fiber").then(mod => mod.Canvas), {
+  ssr: false // This ensures the component only renders on client-side
+});
 
 const waveVertexShader = `
 precision highp float;
@@ -62,21 +68,35 @@ float cnoise(vec2 P) {
 }
 
 const int OCTAVES = 4;
+// Optimized fbm function with fewer noise computations
 float fbm(vec2 p) {
   float value = 0.0;
   float amp = 1.0;
   float freq = waveFrequency;
-  for (int i = 0; i < OCTAVES; i++) {
-    value += amp * abs(cnoise(p));
-    p *= freq;
-    amp *= waveAmplitude;
-  }
+  
+  // Unroll the loop for better performance
+  value += amp * abs(cnoise(p));
+  
+  p *= freq;
+  amp *= waveAmplitude;
+  value += amp * abs(cnoise(p));
+  
+  p *= freq;
+  amp *= waveAmplitude;
+  value += amp * abs(cnoise(p));
+  
+  p *= freq;
+  amp *= waveAmplitude;
+  value += amp * abs(cnoise(p));
+  
   return value;
 }
 
+// Cache intermediate computation
 float pattern(vec2 p) {
   vec2 p2 = p - time * waveSpeed;
-  return fbm(p + fbm(p2)); 
+  float noiseVal = fbm(p2);
+  return fbm(p + noiseVal);
 }
 
 void main() {
@@ -100,33 +120,47 @@ const ditherFragmentShader = `
 precision highp float;
 uniform float colorNum;
 uniform float pixelSize;
-const float bayerMatrix8x8[64] = float[64](
-  0.0/64.0, 48.0/64.0, 12.0/64.0, 60.0/64.0,  3.0/64.0, 51.0/64.0, 15.0/64.0, 63.0/64.0,
-  32.0/64.0,16.0/64.0, 44.0/64.0, 28.0/64.0, 35.0/64.0,19.0/64.0, 47.0/64.0, 31.0/64.0,
-  8.0/64.0, 56.0/64.0,  4.0/64.0, 52.0/64.0, 11.0/64.0,59.0/64.0,  7.0/64.0, 55.0/64.0,
-  40.0/64.0,24.0/64.0, 36.0/64.0, 20.0/64.0, 43.0/64.0,27.0/64.0, 39.0/64.0, 23.0/64.0,
-  2.0/64.0, 50.0/64.0, 14.0/64.0, 62.0/64.0,  1.0/64.0,49.0/64.0, 13.0/64.0, 61.0/64.0,
-  34.0/64.0,18.0/64.0, 46.0/64.0, 30.0/64.0, 33.0/64.0,17.0/64.0, 45.0/64.0, 29.0/64.0,
-  10.0/64.0,58.0/64.0,  6.0/64.0, 54.0/64.0,  9.0/64.0,57.0/64.0,  5.0/64.0, 53.0/64.0,
-  42.0/64.0,26.0/64.0, 38.0/64.0, 22.0/64.0, 41.0/64.0,25.0/64.0, 37.0/64.0, 21.0/64.0
+
+// Pre-compute Bayer matrix thresholds for better performance
+// Use 4x4 matrix instead of 8x8 for better performance while maintaining visual quality
+const float bayerMatrix4x4[16] = float[16](
+  0.0/16.0, 8.0/16.0, 2.0/16.0, 10.0/16.0,
+  12.0/16.0, 4.0/16.0, 14.0/16.0, 6.0/16.0,
+  3.0/16.0, 11.0/16.0, 1.0/16.0, 9.0/16.0,
+  15.0/16.0, 7.0/16.0, 13.0/16.0, 5.0/16.0
 );
 
+// Optimized dither function with fewer calculations
 vec3 dither(vec2 uv, vec3 color) {
+  // Pixel grid calculation
   vec2 scaledCoord = floor(uv * resolution / pixelSize);
-  int x = int(mod(scaledCoord.x, 8.0));
-  int y = int(mod(scaledCoord.y, 8.0));
-  float threshold = bayerMatrix8x8[y * 8 + x] - 0.25;
+  
+  // Faster 4x4 matrix indexing
+  int x = int(mod(scaledCoord.x, 4.0));
+  int y = int(mod(scaledCoord.y, 4.0));
+  
+  // Look up the threshold directly
+  float threshold = bayerMatrix4x4[y * 4 + x] - 0.25;
+  
+  // Pre-calculate color quantization step
   float step = 1.0 / (colorNum - 1.0);
-  color += threshold * step;
-  float bias = 0.2;
-  color = clamp(color - bias, 0.0, 1.0);
+  
+  // Apply dithering with fewer operations
+  color = clamp(color + threshold * step - 0.2, 0.0, 1.0);
   return floor(color * (colorNum - 1.0) + 0.5) / (colorNum - 1.0);
 }
 
 void mainImage(in vec4 inputColor, in vec2 uv, out vec4 outputColor) {
+  // Pre-calculate normalized pixel size once
   vec2 normalizedPixelSize = pixelSize / resolution;
+  
+  // Pixelate the texture coordinates
   vec2 uvPixel = normalizedPixelSize * floor(uv / normalizedPixelSize);
+  
+  // Sample texture once
   vec4 color = texture2D(inputBuffer, uvPixel);
+  
+  // Apply dither to RGB channels
   color.rgb = dither(uv, color.rgb);
   outputColor = color;
 }
@@ -209,6 +243,7 @@ function DitheredWaves({
   const mouseRef = useRef(new THREE.Vector2());
   const { viewport, size, gl } = useThree();
 
+  // Create uniforms with memoized values to prevent unnecessary updates
   const waveUniformsRef = useRef<WaveUniforms>({
     time: new THREE.Uniform(0),
     resolution: new THREE.Uniform(new THREE.Vector2(0, 0)),
@@ -220,58 +255,123 @@ function DitheredWaves({
     enableMouseInteraction: new THREE.Uniform(enableMouseInteraction ? 1 : 0),
     mouseRadius: new THREE.Uniform(mouseRadius),
   });
-
-  useEffect(() => {
+  
+  // Memoize resolution calculations
+  const updateResolution = useRef((width: number, height: number) => {
     const dpr = gl.getPixelRatio();
-    const newWidth = Math.floor(size.width * dpr);
-    const newHeight = Math.floor(size.height * dpr);
-    const currentRes = waveUniformsRef.current.resolution.value;
-    if (currentRes.x !== newWidth || currentRes.y !== newHeight) {
-      currentRes.set(newWidth, newHeight);
-    }
-  }, [size, gl]);
+    const newWidth = Math.floor(width * dpr);
+    const newHeight = Math.floor(height * dpr);
+    waveUniformsRef.current.resolution.value.set(newWidth, newHeight);
+  });
 
-  const prevColor = useRef([...waveColor]);
+  // Only update resolution when size changes
+  useEffect(() => {
+    updateResolution.current(size.width, size.height);
+  }, [size.width, size.height, gl]);
+
+  const prevProps = useRef({
+    waveSpeed,
+    waveFrequency,
+    waveAmplitude,
+    waveColor: [...waveColor],
+    enableMouseInteraction,
+    mouseRadius
+  });
+  
+  // Use a throttled update for animation frames
+  const lastFrameTime = useRef(0);
+  const frameInterval = useRef(1000 / 60); // Cap at 60fps for performance
+  
   useFrame(({ clock }) => {
     const u = waveUniformsRef.current;
-
-    if (!disableAnimation) {
+    const now = clock.getElapsedTime() * 1000;
+    
+    // Time-based animation update at capped framerate
+    if (!disableAnimation && now - lastFrameTime.current >= frameInterval.current) {
       u.time.value = clock.getElapsedTime();
+      lastFrameTime.current = now;
     }
 
-    if (u.waveSpeed.value !== waveSpeed) u.waveSpeed.value = waveSpeed;
-    if (u.waveFrequency.value !== waveFrequency)
+    // Batch uniform updates only when props change
+    const prev = prevProps.current;
+    let propsChanged = false;
+    
+    if (prev.waveSpeed !== waveSpeed) {
+      u.waveSpeed.value = waveSpeed;
+      prev.waveSpeed = waveSpeed;
+      propsChanged = true;
+    }
+    
+    if (prev.waveFrequency !== waveFrequency) {
       u.waveFrequency.value = waveFrequency;
-    if (u.waveAmplitude.value !== waveAmplitude)
+      prev.waveFrequency = waveFrequency;
+      propsChanged = true;
+    }
+    
+    if (prev.waveAmplitude !== waveAmplitude) {
       u.waveAmplitude.value = waveAmplitude;
-
-    if (!prevColor.current.every((v, i) => v === waveColor[i])) {
+      prev.waveAmplitude = waveAmplitude;
+      propsChanged = true;
+    }
+    
+    if (!prev.waveColor.every((v, i) => v === waveColor[i])) {
       u.waveColor.value.set(...waveColor);
-      prevColor.current = [...waveColor];
+      prev.waveColor = [...waveColor];
+      propsChanged = true;
+    }
+    
+    if (prev.enableMouseInteraction !== enableMouseInteraction) {
+      u.enableMouseInteraction.value = enableMouseInteraction ? 1 : 0;
+      prev.enableMouseInteraction = enableMouseInteraction;
+      propsChanged = true;
+    }
+    
+    if (prev.mouseRadius !== mouseRadius) {
+      u.mouseRadius.value = mouseRadius;
+      prev.mouseRadius = mouseRadius;
+      propsChanged = true;
     }
 
-    u.enableMouseInteraction.value = enableMouseInteraction ? 1 : 0;
-    u.mouseRadius.value = mouseRadius;
-
+    // Only update mouse position when interaction is enabled and something changed
     if (enableMouseInteraction) {
       u.mousePos.value.copy(mouseRef.current);
     }
   });
 
+  // Throttle pointer events for better performance
+  const lastMoveTime = useRef(0);
+  const moveThrottleInterval = useRef(16); // ~60fps throttle
+  
   const handlePointerMove = (e: ThreeEvent<PointerEvent>) => {
     if (!enableMouseInteraction) return;
+    
+    const now = performance.now();
+    if (now - lastMoveTime.current < moveThrottleInterval.current) {
+      return;
+    }
+    
     const rect = gl.domElement.getBoundingClientRect();
     const dpr = gl.getPixelRatio();
     mouseRef.current.set(
       (e.clientX - rect.left) * dpr,
       (e.clientY - rect.top) * dpr
     );
+    
+    lastMoveTime.current = now;
   };
 
+  // Memoize the geometry to prevent recreation
+  const planeGeometry = useMemo(() => new THREE.PlaneGeometry(1, 1), []);
+  
   return (
     <>
-      <mesh ref={mesh} scale={[viewport.width, viewport.height, 1]}>
-        <planeGeometry args={[1, 1]} />
+      <mesh 
+        ref={mesh} 
+        scale={[viewport.width, viewport.height, 1]}
+        // Combine event handling with the main mesh to eliminate extra mesh
+        onPointerMove={enableMouseInteraction ? handlePointerMove : undefined}
+      >
+        <primitive object={planeGeometry} />
         <shaderMaterial
           vertexShader={waveVertexShader}
           fragmentShader={waveFragmentShader}
@@ -282,16 +382,6 @@ function DitheredWaves({
       <EffectComposer>
         <RetroEffect colorNum={colorNum} pixelSize={pixelSize} />
       </EffectComposer>
-
-      <mesh
-        onPointerMove={handlePointerMove}
-        position={[0, 0, 0.01]}
-        scale={[viewport.width, viewport.height, 1]}
-        visible={false}
-      >
-        <planeGeometry args={[1, 1]} />
-        <meshBasicMaterial transparent opacity={0} />
-      </mesh>
     </>
   );
 }
@@ -319,24 +409,64 @@ export default function Dither({
   enableMouseInteraction = true,
   mouseRadius = 1,
 }: DitherProps) {
+  // Handle SSR - detect if window is defined (client-side) or not (server-side)
+  const [isClient, setIsClient] = useState(false);
+  
+  // Use effect to set client-side flag after component mounts
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  // Memoize props to prevent unnecessary rerenders
+  const memoizedProps = useMemo(() => ({
+    waveSpeed,
+    waveFrequency,
+    waveAmplitude,
+    waveColor,
+    colorNum,
+    pixelSize,
+    disableAnimation,
+    enableMouseInteraction,
+    mouseRadius
+  }), [
+    waveSpeed,
+    waveFrequency,
+    waveAmplitude,
+    waveColor,
+    colorNum,
+    pixelSize,
+    disableAnimation,
+    enableMouseInteraction,
+    mouseRadius
+  ]);
+  
+  // If we're server-side rendering, return an empty div as placeholder
+  // This prevents trying to access window during SSR
+  if (!isClient) {
+    return <div className="w-full h-full relative" />;
+  }
+  
+  // Safely determine device pixel ratio
+  const getDpr = () => {
+    if (typeof window !== 'undefined') {
+      return Math.min(window.devicePixelRatio, 2);
+    }
+    return 1;
+  };
+  
   return (
     <Canvas
       className="w-full h-full relative"
       camera={{ position: [0, 0, 6] }}
-      dpr={window.devicePixelRatio}
-      gl={{ antialias: true, preserveDrawingBuffer: true }}
+      dpr={getDpr()}
+      gl={{ 
+        antialias: false, // Turn off antialiasing since we're using pixelation anyway
+        preserveDrawingBuffer: true,
+        powerPreference: 'high-performance'
+      }}
+      frameloop={disableAnimation ? 'demand' : 'always'} // Only render when needed if animation is disabled
     >
-      <DitheredWaves
-        waveSpeed={waveSpeed}
-        waveFrequency={waveFrequency}
-        waveAmplitude={waveAmplitude}
-        waveColor={waveColor}
-        colorNum={colorNum}
-        pixelSize={pixelSize}
-        disableAnimation={disableAnimation}
-        enableMouseInteraction={enableMouseInteraction}
-        mouseRadius={mouseRadius}
-      />
+      <DitheredWaves {...memoizedProps} />
     </Canvas>
   );
 }

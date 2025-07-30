@@ -94,15 +94,17 @@ const Projects: React.FC = () => {
   return (
     <section 
       id="projects" 
-      className="w-full min-h-screen bg-white relative z-0"
+      className="w-full min-h-screen bg-white relative overflow-hidden"
       ref={root}
+      style={{ isolation: 'isolate' }}
     >
       {/* Projects content */}
       <div 
-        className="w-full px-6 md:px-12 lg:px-20 py-20 blur-[30px] scale-[0.9] opacity-10"
+        className="w-full px-6 md:px-12 lg:px-20 py-20 blur-[30px] scale-[0.9] opacity-10 relative z-10 pointer-events-none"
         ref={projectsContentRef}
+        style={{ pointerEvents: 'none' }}
       >
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto pointer-events-auto">
           {/* Section header */}
           <div className="mb-16 text-center">
             <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-black mb-6">
@@ -114,14 +116,14 @@ const Projects: React.FC = () => {
           </div>
 
           {/* Projects grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pointer-events-auto">
             {projects.map((project, index) => (
               <ProjectCard key={project.id} project={project} />
             ))}
           </div>
 
           {/* Additional content to show more work */}
-          <div className="mt-20 text-center">
+          <div className="mt-20 text-center pointer-events-auto">
             <p className="text-lg text-gray-600 mb-8">
               Want to see more of my work?
             </p>
@@ -134,7 +136,11 @@ const Projects: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className="w-full h-full absolute top-0 left-0 pointer-events-none -z-10 opacity-0 blur-2xl" ref={backgroundRef}>
+      <div 
+        className="w-full h-full absolute top-0 left-0 z-0 opacity-0 blur-2xl pointer-events-auto" 
+        ref={backgroundRef}
+        style={{ pointerEvents: 'auto' }}
+      >
           <Dither
             waveColor={[1, 0, 0]}
             disableAnimation={false}
