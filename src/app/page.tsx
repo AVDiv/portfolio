@@ -258,7 +258,7 @@ export default function Home() {
   return (
     <main className="bg-black relative" ref={root}>
       {/* Camera Viewport Frame */}
-      <div className="fixed top-0 left-0 h-screen w-screen z-10" ref={cameraFrameRef}>
+      <div className="fixed top-0 left-0 h-screen w-screen z-10 pointer-events-none" ref={cameraFrameRef}>
         {/* Site Navigation Bar - Gamified */}
         <nav ref={navbarRef} className="absolute top-0 left-0 h-screen flex flex-col items-center justify-center px-6 z-20 opacity-0">
           {/* Vertical progress line */}
@@ -296,10 +296,10 @@ export default function Home() {
           </div>
         </nav>
         {/* Camera viewport content */}
-        <div className="h-full w-full shadow-[0_0_0_90px_rgba(0,0,0,1)] overflow-hidden" ref={cameraViewportRef}>
+        <div className="h-full w-full shadow-[0_0_0_90px_rgba(0,0,0,1)] overflow-hidden pointer-events-none" ref={cameraViewportRef}>
         </div>
       </div>
-      <div className="fixed top-0 left-0 h-full w-screen z-20">
+      <div className="fixed top-0 left-0 h-full w-screen z-20 pointer-events-none">
         <Noise 
           patternSize={1}
           patternScaleX={1}
