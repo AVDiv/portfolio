@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
+import { animate, onScroll } from "animejs";
 
 interface Project {
   id: number;
@@ -11,6 +12,9 @@ interface Project {
 }
 
 const Projects: React.FC = () => {
+  const projectsSectionRef = useRef<HTMLDivElement>(null);
+  const projectsContentRef = useRef<HTMLDivElement>(null);
+
   // Sample projects data - you can replace this with your actual projects
   const projects: Project[] = [
     {
@@ -39,13 +43,48 @@ const Projects: React.FC = () => {
     }
   ];
 
+  // Scroll blur-in animation effect
+  useEffect(() => {
+    if (projectsSectionRef.current && projectsContentRef.current) {
+      // Set initial state: blurred and scaled down
+      projectsContentRef.current.style.filter = 'blur(30px)';
+      projectsContentRef.current.style.transform = 'scale(0.9)';
+      projectsContentRef.current.style.opacity = '0.1';
+      
+      const scrollBlurInAnimation = animate(projectsContentRef.current, {
+        filter: 'blur(0px)',
+        scale: 1.05,
+        opacity: 1,
+        ease: 'outCubic',
+        autoplay: onScroll({
+          target: projectsSectionRef.current,
+          container: document.body,
+          enter: {target: "top", container: "top+=20vh"},
+          leave: {target: "center-=35vh", container: "top"},
+          sync: 'outCubic',
+          debug: true,
+        })
+      });
+
+      return () => {
+        if (scrollBlurInAnimation && scrollBlurInAnimation.revert) {
+          scrollBlurInAnimation.revert();
+        }
+      };
+    }
+  }, []);
+
   return (
     <section 
       id="projects" 
       className="w-full min-h-screen bg-white"
+      ref={projectsSectionRef}
     >
       {/* Projects content */}
-      <div className="w-full px-6 md:px-12 lg:px-20 py-20">
+      <div 
+        className="w-full px-6 md:px-12 lg:px-20 py-20"
+        ref={projectsContentRef}
+      >
         <div className="max-w-7xl mx-auto">
           {/* Section header */}
           <div className="mb-16 text-center">

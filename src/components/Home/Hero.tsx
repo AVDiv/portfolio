@@ -113,7 +113,7 @@ const Hero: React.FC<HeroProps> = ({ rootRefSetter }) => {
   return (
     <section 
       id="landing" 
-      className='w-full h-[200vh] relative'
+      className='w-full h-[150vh] relative'
       ref={root}
     >
       {/* Entrance Animation Holder */}
