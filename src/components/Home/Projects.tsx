@@ -1,5 +1,7 @@
 import React, { useRef, useEffect } from "react";
-import { animate, onScroll } from "animejs";
+import { animate, createScope, onScroll } from "animejs";
+import Dither from "@/components/Animations/Dither/Dither";
+import ProjectCard from "../Cards/ProjectCard";
 
 interface Project {
   id: number;
@@ -12,7 +14,9 @@ interface Project {
 }
 
 const Projects: React.FC = () => {
-  const projectsSectionRef = useRef<HTMLDivElement>(null);
+  const root = useRef<HTMLDivElement>(null);
+  const scope = useRef<any>(null);
+  const backgroundRef = useRef<HTMLDivElement>(null);
   const projectsContentRef = useRef<HTMLDivElement>(null);
 
   // Sample projects data - you can replace this with your actual projects
@@ -45,44 +49,57 @@ const Projects: React.FC = () => {
 
   // Scroll blur-in animation effect
   useEffect(() => {
-    if (projectsSectionRef.current && projectsContentRef.current) {
-      // Set initial state: blurred and scaled down
-      projectsContentRef.current.style.filter = 'blur(30px)';
-      projectsContentRef.current.style.transform = 'scale(0.9)';
-      projectsContentRef.current.style.opacity = '0.1';
-      
-      const scrollBlurInAnimation = animate(projectsContentRef.current, {
-        filter: 'blur(0px)',
-        scale: 1.05,
-        opacity: 1,
-        ease: 'outCubic',
-        autoplay: onScroll({
-          target: projectsSectionRef.current,
-          container: document.body,
-          enter: {target: "top", container: "top+=20vh"},
-          leave: {target: "center-=35vh", container: "top"},
-          sync: 'outCubic',
-          debug: true,
-        })
-      });
+    scope.current = createScope({ root }).add(self => {
+      if (root.current && projectsContentRef.current && backgroundRef.current) {
+        // backgroundRef.current.style.filter = 'blur(1.5px)';
 
-      return () => {
-        if (scrollBlurInAnimation && scrollBlurInAnimation.revert) {
-          scrollBlurInAnimation.revert();
-        }
-      };
-    }
+        animate(projectsContentRef.current, {
+          filter: 'blur(0px)',
+          scale: 1.05,
+          opacity: 1,
+          ease: 'outCubic',
+          autoplay: onScroll({
+            target: root.current,
+            container: document.body,
+            enter: {target: "top", container: "top+=20vh"},
+            leave: {target: "center-=35vh", container: "top"},
+            sync: 'outCubic',
+            debug: true,
+          })
+        });
+
+        animate(backgroundRef.current, {
+          opacity: 0.3,
+          filter: 'blur(1.5px)',
+          ease: 'outCubic',
+          autoplay: onScroll({
+            target: root.current,
+            container: document.body,
+            enter: {target: "center-=35vh", container: "top+=20vh"},
+            leave: {target: "center-=30vh", container: "top+=20vh"},
+            sync: 'outCubic',
+            debug: true,
+          })
+        });
+      }
+    });
+
+    return () => {
+      if (scope && scope.current.revert) {
+        scope.current.revert();
+      }
+    };
   }, []);
 
   return (
     <section 
       id="projects" 
-      className="w-full min-h-screen bg-white"
-      ref={projectsSectionRef}
+      className="w-full min-h-screen bg-white relative z-0"
+      ref={root}
     >
       {/* Projects content */}
       <div 
-        className="w-full px-6 md:px-12 lg:px-20 py-20"
+        className="w-full px-6 md:px-12 lg:px-20 py-20 blur-[30px] scale-[0.9] opacity-10"
         ref={projectsContentRef}
       >
         <div className="max-w-7xl mx-auto">
@@ -99,61 +116,7 @@ const Projects: React.FC = () => {
           {/* Projects grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {projects.map((project, index) => (
-              <div 
-                key={project.id}
-                className="group bg-white border border-gray-200 rounded-lg p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-2"
-              >
-                {/* Project image placeholder */}
-                <div className="w-full h-48 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg mb-6 flex items-center justify-center">
-                  <span className="text-gray-500 text-sm">Project Image</span>
-                </div>
-                
-                {/* Project info */}
-                <div>
-                  <h3 className="text-2xl font-bold text-black mb-3 group-hover:text-red-600 transition-colors">
-                    {project.title}
-                  </h3>
-                  <p className="text-gray-600 mb-4 leading-relaxed">
-                    {project.description}
-                  </p>
-                  
-                  {/* Technologies */}
-                  <div className="flex flex-wrap gap-2 mb-6">
-                    {project.technologies.map((tech, techIndex) => (
-                      <span 
-                        key={techIndex}
-                        className="px-3 py-1 bg-gray-100 text-gray-700 text-sm rounded-full border"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                  
-                  {/* Project links */}
-                  <div className="flex gap-4">
-                    {project.liveUrl && (
-                      <a 
-                        href={project.liveUrl}
-                        className="px-4 py-2 bg-black text-white rounded-lg hover:bg-red-600 transition-colors"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        Live Demo
-                      </a>
-                    )}
-                    {project.githubUrl && (
-                      <a 
-                        href={project.githubUrl}
-                        className="px-4 py-2 border border-black text-black rounded-lg hover:bg-black hover:text-white transition-colors"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        GitHub
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </div>
+              <ProjectCard key={project.id} project={project} />
             ))}
           </div>
 
@@ -170,6 +133,18 @@ const Projects: React.FC = () => {
             </a>
           </div>
         </div>
+      </div>
+      <div className="w-full h-full absolute top-0 left-0 pointer-events-none -z-10 opacity-0 blur-2xl" ref={backgroundRef}>
+          <Dither
+            waveColor={[1, 0, 0]}
+            disableAnimation={false}
+            enableMouseInteraction={true}
+            mouseRadius={0.3}
+            colorNum={4}
+            waveAmplitude={0.3}
+            waveFrequency={3}
+            waveSpeed={0.05}
+          />
       </div>
     </section>
   );
