@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { waapi, animate, createScope, onScroll, ScrollObserver } from "animejs";
+import { animate, createScope, onScroll, ScrollObserver } from "animejs";
 import Dither from "@/components/Animations/Dither/Dither";
 import ProjectCard from "../Cards/ProjectCard";
 
@@ -52,7 +52,7 @@ const Projects: React.FC = () => {
     scope.current = createScope({ root }).add(self => {
       if (root.current && projectsContentRef.current && backgroundRef.current) {
 
-        waapi.animate(projectsContentRef.current, {
+        animate(projectsContentRef.current, {
           filter: 'blur(0px)',
           scale: 1.05,
           opacity: 1,
@@ -82,7 +82,6 @@ const Projects: React.FC = () => {
             enter: {target: "top+=15vh", container: "top+=20vh"},
             leave: {target: "top+=20vh", container: "top+=20vh"},
             sync: 'outCubic',
-            debug: true, // Enable debugging for animejs
           })
         });
 
@@ -98,7 +97,6 @@ const Projects: React.FC = () => {
             enter: {target: "bottom-=20vh", container: "bottom-=20vh"},
             leave: {target: "bottom-=15vh", container: "bottom-=20vh"},
             sync: 'outCubic',
-            debug: true, // Enable debugging for animejs
           })
         });
       }
