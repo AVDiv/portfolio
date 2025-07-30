@@ -3,9 +3,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLoader } from "@/context/LoaderProvider";
 import { animate, createScope, onScroll, ScrollObserver } from 'animejs';
 import Hero from "@/components/Home/Hero";
+import About from "@/components/Home/About";
 import Projects from "@/components/Home/Projects";
+import Contact from "@/components/Home/Contact";
 import Noise from "@/components/Animations/Noise/Noise";
-import { HomeSimple, Folder } from "iconoir-react";
+import { HomeSimple, Folder, User, Mail } from "iconoir-react";
 import { contain } from "three/src/extras/TextureUtils.js";
 
 export default function Home() {
@@ -280,12 +282,34 @@ export default function Home() {
                 </div>
               </li>
               
+              {/* About section */}
+              <li className="relative" data-section="about">
+                <div className="absolute -left-[14px] transform -translate-y-1/2 w-[30px] h-[30px] rounded-full border-2 border-gray-800 bg-black flex items-center justify-center group cursor-pointer transition-all duration-300 hover:scale-110">
+                  <a href="#about" className="flex items-center w-full h-full justify-center relative">
+                    <User width={16} height={16} className="text-red-600" />
+                    <span id="about-label" className="absolute left-8 text-red-600 font-semibold opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap tracking-wider">About</span>
+                  </a>
+                  <div className="absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 bg-red-600 bg-opacity-20 active-glow"></div>
+                </div>
+              </li>
+              
               {/* Projects section */}
               <li className="relative" data-section="projects">
                 <div className="absolute -left-[14px] transform -translate-y-1/2 w-[30px] h-[30px] rounded-full border-2 border-gray-800 bg-black flex items-center justify-center group cursor-pointer transition-all duration-300 hover:scale-110">
                   <a href="#projects" className="flex items-center w-full h-full justify-center relative">
                     <Folder width={16} height={16} className="text-red-600" />
                     <span id="projects-label" className="absolute left-8 text-red-600 font-semibold opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap tracking-wider">Projects</span>
+                  </a>
+                  <div className="absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 bg-red-600 bg-opacity-20 active-glow"></div>
+                </div>
+              </li>
+              
+              {/* Contact section */}
+              <li className="relative" data-section="contact">
+                <div className="absolute -left-[14px] transform -translate-y-1/2 w-[30px] h-[30px] rounded-full border-2 border-gray-800 bg-black flex items-center justify-center group cursor-pointer transition-all duration-300 hover:scale-110">
+                  <a href="#contact" className="flex items-center w-full h-full justify-center relative">
+                    <Mail width={16} height={16} className="text-red-600" />
+                    <span id="contact-label" className="absolute left-8 text-red-600 font-semibold opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap tracking-wider">Contact</span>
                   </a>
                   <div className="absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 bg-red-600 bg-opacity-20 active-glow"></div>
                 </div>
@@ -309,7 +333,9 @@ export default function Home() {
       <div className="w-full">
           {/* Sections of the page */}
           <Hero rootRefSetter={heroRootRef} />
+          <About />
           <Projects />
+          <Contact />
       </div>
     </main>
   );
