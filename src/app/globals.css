@@ -5,6 +5,10 @@
   --foreground: #171717;
 }
 
+* {
+  /* Smooth scroll */
+  scroll-behavior: smooth;
+}
 
 body {
   background: var(--background);
