@@ -2,74 +2,13 @@ import React, { useRef, useEffect } from "react";
 import { animate, createScope, onScroll } from "animejs";
 import Dither from "@/components/Animations/Dither/Dither";
 import ProjectCard from "../Cards/ProjectCard";
-
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  technologies: string[];
-  image?: string;
-  liveUrl?: string;
-  githubUrl?: string;
-}
+import { projects } from "@/data/projects";
 
 const Projects: React.FC = () => {
   const root = useRef<HTMLDivElement>(null);
   const scope = useRef<any>(null);
   const backgroundRef = useRef<HTMLDivElement>(null);
   const projectsContentRef = useRef<HTMLDivElement>(null);
-
-  // Sample projects data - you can replace this with your actual projects
-  const projects: Project[] = [
-    {
-      id: 1,
-      title: "Fluid Simulation",
-      description: "Interactive fluid dynamics simulation with WebGL and GLSL shaders",
-      technologies: ["WebGL", "GLSL", "JavaScript", "Physics"],
-      liveUrl: "#",
-      githubUrl: "#"
-    },
-    {
-      id: 2,
-      title: "Portfolio Website",
-      description: "Modern portfolio website with advanced animations and 3D effects",
-      technologies: ["Next.js", "TypeScript", "Tailwind CSS", "Three.js"],
-      liveUrl: "#",
-      githubUrl: "#"
-    },
-    {
-      id: 3,
-      title: "AI Dashboard",
-      description: "Machine learning dashboard with real-time data visualization",
-      technologies: ["React", "Python", "TensorFlow", "D3.js"],
-      liveUrl: "#",
-      githubUrl: "#"
-    },
-    {
-      id: 4,
-      title: "E-commerce Platform",
-      description: "Full-stack e-commerce application with payment integration",
-      technologies: ["Node.js", "Express", "MongoDB", "Stripe"],
-      liveUrl: "#",
-      githubUrl: "#"
-    },
-    {
-      id: 5,
-      title: "Social Media App",
-      description: "Real-time social media application with chat and notifications",
-      technologies: ["React", "Firebase", "Redux", "Socket.io"],
-      liveUrl: "#",
-      githubUrl: "#"
-    },
-    {
-      id: 6,
-      title: "Game Development",
-      description: "2D platformer game built with Phaser and TypeScript",
-      technologies: ["Phaser", "TypeScript", "HTML5", "Canvas"],
-      liveUrl: "#",
-      githubUrl: "#"
-    }
-  ];
 
   // Scroll blur-in animation effect
   useEffect(() => {
