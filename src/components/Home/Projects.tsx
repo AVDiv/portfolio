@@ -44,6 +44,30 @@ const Projects: React.FC = () => {
       technologies: ["React", "Python", "TensorFlow", "D3.js"],
       liveUrl: "#",
       githubUrl: "#"
+    },
+    {
+      id: 4,
+      title: "E-commerce Platform",
+      description: "Full-stack e-commerce application with payment integration",
+      technologies: ["Node.js", "Express", "MongoDB", "Stripe"],
+      liveUrl: "#",
+      githubUrl: "#"
+    },
+    {
+      id: 5,
+      title: "Social Media App",
+      description: "Real-time social media application with chat and notifications",
+      technologies: ["React", "Firebase", "Redux", "Socket.io"],
+      liveUrl: "#",
+      githubUrl: "#"
+    },
+    {
+      id: 6,
+      title: "Game Development",
+      description: "2D platformer game built with Phaser and TypeScript",
+      technologies: ["Phaser", "TypeScript", "HTML5", "Canvas"],
+      liveUrl: "#",
+      githubUrl: "#"
     }
   ];
 

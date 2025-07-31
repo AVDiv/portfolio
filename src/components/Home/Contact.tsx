@@ -90,7 +90,7 @@ const Contact: React.FC = () => {
   return (
     <section 
       id="contact" 
-      className="w-full min-h-screen bg-white relative overflow-hidden"
+      className="w-full h-screen bg-white relative overflow-hidden flex justify-center items-center"
       ref={root}
       style={{ isolation: 'isolate' }}
     >

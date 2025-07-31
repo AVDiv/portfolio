@@ -1,7 +1,7 @@
 import React, { Ref, useEffect, useRef, useState } from "react";
 import DarkVeil from "@/components/Animations/DarkVeil/DarkVeil";
 import { useLoader } from "@/context/LoaderProvider";
-import { waapi, createScope, onScroll } from "animejs";
+import { waapi, createScope, onScroll, animate } from "animejs";
 
 interface HeroProps {
   rootRefSetter?: Ref<any>;
@@ -53,7 +53,7 @@ const Hero: React.FC<HeroProps> = ({ rootRefSetter }) => {
   useEffect(() => {
     if (slideHolderRef.current && contentOverlayRef.current && root.current && animationComplete) {
 
-      const scrollBlurAnimation = waapi.animate(slideHolderRef.current, {
+      const scrollBlurAnimation = animate(slideHolderRef.current, {
         filter: 'blur(20px)',
         ease: 'linear',
         autoplay: onScroll({
@@ -61,11 +61,11 @@ const Hero: React.FC<HeroProps> = ({ rootRefSetter }) => {
           container: document.body,
           enter: {target: "top", container: "top"},
           leave: {target: "bottom", container: "bottom"},
-          sync: 0.95,
+          sync: 'linear',
         })
       });
 
-      const scrollContentOverlayAnimation = waapi.animate(contentOverlayRef.current, {
+      const scrollContentOverlayAnimation = animate(contentOverlayRef.current, {
         opacity: -0.1,
         scale: 0.9,
         ease: 'linear',
@@ -74,7 +74,7 @@ const Hero: React.FC<HeroProps> = ({ rootRefSetter }) => {
           container: document.body,
           enter: {target: "top", container: "top"},
           leave: {target: "bottom", container: "bottom"},
-          sync: 0.9,
+          sync: 'linear',
         })
       });;
       
