@@ -1,7 +1,7 @@
 import fs from 'fs'
 import path from 'path'
 
-export function getAllProjects(): { slug: string }[] {
+export function getAllProjectSlugs(): { slug: string }[] {
   const projectsDirectory = path.join(process.cwd(), 'src/content/projects')
   const filenames = fs.readdirSync(projectsDirectory)
 

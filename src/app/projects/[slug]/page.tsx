@@ -1,4 +1,4 @@
-import { getAllProjects } from '@/utils/allProjects';
+import { getAllProjectSlugs } from '@/utils/allProjectSlugs';
 import { getProjectWithOutline } from '@/utils/getProjectWithOutline';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import { useMDXComponents } from '@/mdx-components';
@@ -7,24 +7,24 @@ import './article.css';
 import Noise from '@/components/Animations/Noise/Noise';
 import Dither from '@/components/Animations/Dither/Dither';
 
-interface Project {
-  slug: string
-}
-
 interface StaticParam {
   slug: string
 }
 
-export async function generateStaticParams() {
-  const projects: Project[] = getAllProjects()
+type Params = Promise<{
+  slug: string;
+}>;
 
-  return projects.map((project: Project): StaticParam => ({
+export async function generateStaticParams() {
+  const projects: StaticParam[] = getAllProjectSlugs()
+
+  return projects.map((project: StaticParam): StaticParam => ({
     slug: project.slug,
   }))
 }
 
-export default async function ProjectPage({ params }: { params: { slug: string } }) {
-  const { content, headings, frontmatter } = await getProjectWithOutline(params.slug)
+export default async function ProjectPage({ params }: { params: Params }) {
+  const { content, headings, frontmatter } = await getProjectWithOutline((await params).slug)
   const components = useMDXComponents();
   return (
     <div className="flex flex-row bg-black p-5 w-screen min-h-screen">
