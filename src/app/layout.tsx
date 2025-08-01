@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Sometype_Mono } from "next/font/google";
 import "./globals.css";
 
-import { Partytown } from "@qwik.dev/partytown/react";
 import Head from "next/head";
 import { AmplitudeProvider } from "../context";
 import { LoaderProvider } from "../context/LoaderProvider";
@@ -28,7 +27,6 @@ export default function RootLayout({
     <html lang="en">
       <Head>
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
-        <Partytown debug={true} forward={["dataLayer.push"]} />
       </Head>
       <body className={` antialiased`}>
         <AmplitudeProvider>
