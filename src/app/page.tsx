@@ -1,12 +1,13 @@
 "use client";
 import React, { useEffect, useRef } from "react";
-import { waapi, createScope, onScroll } from 'animejs';
+import { createScope, onScroll, animate } from 'animejs';
 import Hero from "@/components/Home/Hero";
 import About from "@/components/Home/About";
 import Projects from "@/components/Home/Projects";
 import Contact from "@/components/Home/Contact";
 import Noise from "@/components/Animations/Noise/Noise";
 import { HomeSimple, Folder, User, Mail } from "iconoir-react";
+import NavbarMarker from "@/components/NavbarMarker";
 
 export default function Home() {
   const root = useRef<HTMLElement>(null);
@@ -19,207 +20,13 @@ export default function Home() {
   const scope = useRef<any>(null);
   const scrollObserver = useRef<any>(null);
 
-  // // Camera viewport frame animation
-  // useEffect(() => {
-  //   if (cameraFrameRef.current) {
-  //     scrollObserver.current = new ScrollObserver({
-  //       target: document.body,
-  //       onUpdate: (self) => {
-  //         const scrollY = window.scrollY;
-  //         const innerHeight = window.innerHeight;
-  //         const progress = Math.min(scrollY / innerHeight, 1);
-          
-  //         if (cameraFrameRef.current && cameraViewportRef.current) {
-  //           // Animate the camera viewport frame from 0px to 80px padding
-  //           const paddingValue = progress * 60;
-
-  //           // Update the viewport padding to create the camera frame effect
-  //           animate(cameraFrameRef.current, {
-  //             padding: `${paddingValue}px`,
-  //             duration: 0,
-  //             ease: 'linear'
-  //           });
-
-  //           animate(cameraViewportRef.current, {
-  //             borderRadius: `${8 * progress}px`,
-  //             duration: 0,
-  //             ease: 'linear'
-  //           });
-
-  //           // Animate navbar
-  //           if (navbarRef.current) {
-  //             // Fade in navbar with padding
-  //             const translateX = paddingValue * 0.3;
-  //             animate(navbarRef.current, {
-  //               transform: `translateX(${translateX}px)`,
-  //               opacity: progress,
-  //               duration: 0,
-  //               ease: 'linear'
-  //             });
-              
-  //             // Update progress line based on scroll position
-  //             const progressLine = navbarRef.current.querySelector('#progress-line');
-  //             if (progressLine) {
-  //               // Calculate height percentage based on page scroll
-  //               const totalHeight = document.body.scrollHeight - window.innerHeight;
-  //               const scrollPercentage = Math.min((scrollY / totalHeight) * 100, 100);
-                
-  //               animate(progressLine, {
-  //                 height: `${scrollPercentage}%`,
-  //                 duration: 0,
-  //                 ease: 'linear'
-  //               });
-  //             }
-              
-  //             // Update section markers
-  //             const sectionElements = document.querySelectorAll('section[id]');
-  //             const markerElements = navbarRef.current.querySelectorAll('li');
-              
-  //             sectionElements.forEach((section, index) => {
-  //               if (index < markerElements.length) {
-  //                 const sectionTop = section.getBoundingClientRect().top;
-  //                 const sectionBottom = section.getBoundingClientRect().bottom;
-  //                 const marker = markerElements[index].querySelector('div');
-                  
-  //                 // Section is in view
-  //                 if (sectionTop < window.innerHeight/2 && sectionBottom > 0) {
-  //                   marker?.classList.add('active-section');
-  //                   marker?.classList.add('border-red-600');
-  //                   marker?.classList.remove('border-gray-800');
-                    
-  //                   // Show the section name
-  //                   const sectionId = section.getAttribute('id');
-  //                   const labelElement = navbarRef.current?.querySelector(`#${sectionId}-label`);
-  //                   if (labelElement) {
-  //                     animate(labelElement, {
-  //                       opacity: 1,
-  //                       duration: 300,
-  //                       easing: 'easeOutQuad'
-  //                     });
-  //                   }
-                    
-  //                   // Add glow effect
-  //                   const glowElement = marker?.querySelector('.active-glow');
-  //                   if (glowElement) {
-  //                     animate(glowElement, {
-  //                       opacity: 0.8,
-  //                       scale: 1.1,
-  //                       duration: 300,
-  //                       easing: 'easeOutQuad'
-  //                     });
-  //                   }
-                    
-  //                   // Scale up the marker slightly
-  //                   if (marker) {
-  //                     animate(marker, {
-  //                       scale: 1.1,
-  //                       duration: 300,
-  //                       easing: 'easeOutQuad'
-  //                     });
-  //                   }
-  //                 } else {
-  //                   marker?.classList.remove('active-section');
-  //                   marker?.classList.remove('border-red-600');
-  //                   marker?.classList.add('border-gray-800');
-                    
-  //                   // Hide the section name if not hovering
-  //                   const sectionId = section.getAttribute('id');
-  //                   const labelElement = navbarRef.current?.querySelector(`#${sectionId}-label`);
-  //                   if (labelElement && !marker?.closest('.group:hover')) {
-  //                     animate(labelElement, {
-  //                       opacity: 0,
-  //                       duration: 300,
-  //                       easing: 'easeOutQuad'
-  //                     });
-  //                   }
-                    
-  //                   // Remove glow effect
-  //                   const glowElement = marker?.querySelector('.active-glow');
-  //                   if (glowElement) {
-  //                     animate(glowElement, {
-  //                       opacity: 0,
-  //                       scale: 1,
-  //                       duration: 300,
-  //                       easing: 'easeOutQuad'
-  //                     });
-  //                   }
-                    
-  //                   // Scale back to normal
-  //                   if (marker) {
-  //                     animate(marker, {
-  //                       scale: 1,
-  //                       duration: 300,
-  //                       easing: 'easeOutQuad'
-  //                     });
-  //                   }
-  //                 }
-  //               }
-  //             });
-  //           }
-            
-  //         }
-  //       }
-  //     });
-
-  //     return () => {
-  //       if (scrollObserver.current) {
-  //         scrollObserver.current.revert();
-  //       }
-  //     };
-  //   }
-  // }, [cameraFrameRef, cameraViewportRef]);
-
-  // // Initialize section markers
-  // useEffect(() => {
-  //   if (navbarRef.current) {
-  //     // Add a class for styling to show active sections
-  //     document.documentElement.style.setProperty('--active-section-color', '#dc2626'); // red-600
-      
-  //     // Add event listeners to ensure section names appear on hover
-  //     const markerElements = navbarRef.current.querySelectorAll('.group');
-  //     markerElements.forEach(marker => {
-  //       const sectionId = marker.querySelector('a')?.getAttribute('href')?.substring(1);
-  //       if (sectionId) {
-  //         const labelElement = marker.querySelector(`#${sectionId}-label`);
-          
-  //         marker.addEventListener('mouseenter', () => {
-  //           if (labelElement) {
-  //             animate(labelElement, {
-  //               opacity: 1,
-  //               duration: 200,
-  //               easing: 'easeOutQuad'
-  //             });
-  //           }
-  //         });
-          
-  //         marker.addEventListener('mouseleave', () => {
-  //           // Only hide if not the active section
-  //           const section = document.getElementById(sectionId);
-  //           if (section) {
-  //             const sectionTop = section.getBoundingClientRect().top;
-  //             const sectionBottom = section.getBoundingClientRect().bottom;
-  //             const isActive = sectionTop < window.innerHeight/2 && sectionBottom > 0;
-              
-  //             if (!isActive && labelElement) {
-  //               animate(labelElement, {
-  //                 opacity: 0,
-  //                 duration: 200,
-  //                 easing: 'easeOutQuad'
-  //               });
-  //             }
-  //           }
-  //         });
-  //       }
-  //     });
-  //   }
-  // }, [navbarRef]);
-
-  // Cleanup
+  // Scroll animations for the home page
   useEffect(() => {
     scope.current = createScope({ root }).add(self => {
       // Camera viewport frame animation on scroll
-      if (cameraFrameRef.current && cameraViewportRef.current && heroRootRef.current) {
-        waapi.animate(cameraFrameRef.current, {
+      if (cameraFrameRef.current && cameraViewportRef.current && navbarRef.current && heroRootRef.current) {
+        // Camera frame
+        animate(cameraFrameRef.current, {
           padding: `80px`,
           ease: 'linear',
           autoplay: onScroll({
@@ -227,11 +34,11 @@ export default function Home() {
             container: document.body,
             enter: {target: "top", container: "top"},
             leave: {target: "bottom", container: "bottom"},
-            sync: 0.95,
+            sync: 'linear',
           })
         });
-
-        waapi.animate(cameraViewportRef.current, {
+        // Camera viewport
+        animate(cameraViewportRef.current, {
           borderRadius: `8px`,
           ease: 'linear',
           autoplay: onScroll({
@@ -239,9 +46,145 @@ export default function Home() {
             container: document.body,
             enter: {target: "top", container: "top"},
             leave: {target: "bottom", container: "bottom"},
-            sync: 0.95,
+            sync: 'linear',
           })
         });
+        // Navbar visibility
+        animate(navbarRef.current, {
+          opacity: 1,
+          filter: 'blur(0px)',
+          left: '5px',
+          ease: 'linear',
+          autoplay: onScroll({
+            target: heroRootRef.current,
+            container: document.body,
+            enter: {target: "top", container: "top"},
+            leave: {target: "bottom", container: "bottom"},
+            sync: 'linear',
+          })
+        });
+
+        // Progress line animation based on scroll
+        const progressLine = document.getElementById('progress-line');
+        if (progressLine) {
+          // Section-based progress animation
+          const sections = [
+            { element: document.getElementById('landing'), id: 'landing' },
+            { element: document.getElementById('about'), id: 'about' },
+            { element: document.getElementById('projects'), id: 'projects' },
+            { element: document.getElementById('contact'), id: 'contact' }
+          ].filter(section => section.element);
+
+          if (sections.length > 0) {
+            // Calculate total progress based on section scroll positions
+            const updateProgress = () => {
+              const scrollTop = window.pageYOffset;
+              
+              let currentProgress = 0;
+              let currentSectionIndex = -1;
+              const segmentHeight = 100 / (sections.length - 1); // Equal segments between markers
+              
+              for (let i = 0; i < sections.length - 1; i++) {
+                const currentSection = sections[i].element;
+                const nextSection = sections[i + 1].element;
+                
+                if (!currentSection || !nextSection) continue;
+                
+                const currentSectionTop = currentSection.offsetTop;
+                const nextSectionTop = nextSection.offsetTop;
+                const sectionHeight = nextSectionTop - currentSectionTop;
+                
+                if (scrollTop >= currentSectionTop && scrollTop < nextSectionTop) {
+                  // Currently in this section
+                  currentSectionIndex = i;
+                  const sectionProgress = Math.min((scrollTop - currentSectionTop) / sectionHeight, 1);
+                  currentProgress = (i * segmentHeight) + (sectionProgress * segmentHeight);
+                  break;
+                } else if (scrollTop >= nextSectionTop) {
+                  // Past this section
+                  currentProgress = (i + 1) * segmentHeight;
+                }
+              }
+              
+              // Handle last section
+              const lastSection = sections[sections.length - 1].element;
+              if (lastSection && scrollTop >= lastSection.offsetTop) {
+                // Once we reach the last section, progress should be 100%
+                currentSectionIndex = sections.length - 1;
+                currentProgress = 100;
+              }
+              
+              // Update label visibility and marker state based on current section
+              sections.forEach((section, index) => {
+                const label = document.getElementById(`${section.id}-label`);
+                const marker = document.querySelector(`[data-section="${section.id}"] .marker-button`);
+                const icon = marker?.querySelector('svg');
+                
+                if (index === currentSectionIndex) {
+                  // Active section - show label and light up marker
+                  if (label) {
+                    label.style.opacity = '1';
+                    label.style.transform = 'translateX(-100%) scale(1)';
+                  }
+                  if (marker) {
+                    marker.classList.add('active');
+                  }
+                  // Force icon color to black when active
+                  if (icon) {
+                    icon.style.setProperty('color', '#000000', 'important');
+                    icon.style.setProperty('stroke', '#000000', 'important');
+                  }
+                } else {
+                  // Inactive section - hide label and dim marker
+                  if (label) {
+                    label.style.opacity = '0';
+                    label.style.transform = 'translateX(-100%) scale(0.8)';
+                  }
+                  if (marker) {
+                    marker.classList.remove('active');
+                  }
+                  // Reset icon color to red when inactive
+                  if (icon) {
+                    icon.style.setProperty('color', '#dc2626', 'important');
+                    icon.style.setProperty('fill', '#dc2626', 'important');
+                    icon.style.setProperty('stroke', '#dc2626', 'important');
+                  }
+                }
+              });
+              
+              // Ensure progress is within bounds
+              currentProgress = Math.min(Math.max(currentProgress, 0), 100);
+              
+              // Calculate bottom position based on actual container dimensions
+              const progressContainer = progressLine.parentElement;
+              if (progressContainer) {
+                const containerHeight = progressContainer.offsetHeight;
+                const topOffset = 75; // top-[75px]
+                const bottomOffset = 30; // bottom-[30px] 
+                const availableHeight = containerHeight - topOffset - bottomOffset;
+                
+                // Calculate current bottom position
+                const progressDistance = (currentProgress / 100) * availableHeight;
+                const bottomPosition = bottomOffset + availableHeight - progressDistance;
+                
+                progressLine.style.bottom = `${bottomPosition}px`;
+              }
+            };
+            
+            // Initial update and scroll listener
+            updateProgress();
+            const handleScroll = () => updateProgress();
+            window.addEventListener('scroll', handleScroll, { passive: true });
+            
+            // Cleanup function
+            if (self) {
+              self.add("cleanup", () => {
+                window.removeEventListener('scroll', handleScroll);
+              });
+            }
+          }
+        }
+
       }
   });
 
@@ -257,61 +200,41 @@ export default function Home() {
     <main className="bg-black relative" ref={root}>
       {/* Camera Viewport Frame */}
       <div className="fixed top-0 left-0 h-screen w-screen z-10 pointer-events-none" ref={cameraFrameRef}>
-        {/* Site Navigation Bar - Gamified */}
-        <nav ref={navbarRef} className="absolute top-0 left-0 h-screen flex flex-col items-center justify-center px-6 z-20 opacity-0">
-          {/* Vertical progress line */}
-          <div className="relative h-[60vh] flex flex-col items-center">
-            {/* Background track */}
-            <div className="absolute h-full w-[2px] bg-gray-800"></div>
-            
-            {/* Progress indicator (will be animated with scroll) */}
-            <div className="absolute top-0 w-[2px] bg-red-600 origin-top shadow-glow" style={{ height: '0%', boxShadow: '0 0 10px #dc2626, 0 0 5px #dc2626' }} id="progress-line"></div>
-            
-            {/* Section markers */}
-            <ul className="h-full w-full flex flex-col justify-between relative">
-              {/* Home/Landing section */}
-              <li className="relative" data-section="landing">
-                <div className="absolute -left-[14px] transform -translate-y-1/2 w-[30px] h-[30px] rounded-full border-2 border-gray-800 bg-black flex items-center justify-center group cursor-pointer transition-all duration-300 hover:scale-110">
-                  <a href="#landing" className="flex items-center w-full h-full justify-center relative">
-                    <HomeSimple width={16} height={16} className="text-red-600" />
-                    <span id="landing-label" className="absolute left-8 text-red-600 font-semibold opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap tracking-wider">Landing</span>
-                  </a>
-                  <div className="absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 bg-red-600 bg-opacity-20 active-glow"></div>
-                </div>
-              </li>
+        {/* Navigation Bar */}
+        <nav ref={navbarRef} className="absolute top-0 -left-15 h-screen flex flex-col items-center justify-center px-6 z-20 opacity-0 blur-xs pointer-events-auto">
+          {/* Vertical progress line container */}
+          <div className="relative flex flex-col items-center">
+            {/* Section markers list */}
+            <ul className="flex flex-col items-center gap-16 relative">
+              {/* Background track - connects the marker centers */}
+              <div className="absolute top-[75px] bottom-[30px] left-1/2 transform -translate-x-1/2 w-[2px] bg-slate-700"></div>
               
-              {/* About section */}
-              <li className="relative" data-section="about">
-                <div className="absolute -left-[14px] transform -translate-y-1/2 w-[30px] h-[30px] rounded-full border-2 border-gray-800 bg-black flex items-center justify-center group cursor-pointer transition-all duration-300 hover:scale-110">
-                  <a href="#about" className="flex items-center w-full h-full justify-center relative">
-                    <User width={16} height={16} className="text-red-600" />
-                    <span id="about-label" className="absolute left-8 text-red-600 font-semibold opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap tracking-wider">About</span>
-                  </a>
-                  <div className="absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 bg-red-600 bg-opacity-20 active-glow"></div>
-                </div>
-              </li>
-              
-              {/* Projects section */}
-              <li className="relative" data-section="projects">
-                <div className="absolute -left-[14px] transform -translate-y-1/2 w-[30px] h-[30px] rounded-full border-2 border-gray-800 bg-black flex items-center justify-center group cursor-pointer transition-all duration-300 hover:scale-110">
-                  <a href="#projects" className="flex items-center w-full h-full justify-center relative">
-                    <Folder width={16} height={16} className="text-red-600" />
-                    <span id="projects-label" className="absolute left-8 text-red-600 font-semibold opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap tracking-wider">Projects</span>
-                  </a>
-                  <div className="absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 bg-red-600 bg-opacity-20 active-glow"></div>
-                </div>
-              </li>
-              
-              {/* Contact section */}
-              <li className="relative" data-section="contact">
-                <div className="absolute -left-[14px] transform -translate-y-1/2 w-[30px] h-[30px] rounded-full border-2 border-gray-800 bg-black flex items-center justify-center group cursor-pointer transition-all duration-300 hover:scale-110">
-                  <a href="#contact" className="flex items-center w-full h-full justify-center relative">
-                    <Mail width={16} height={16} className="text-red-600" />
-                    <span id="contact-label" className="absolute left-8 text-red-600 font-semibold opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap tracking-wider">Contact</span>
-                  </a>
-                  <div className="absolute inset-0 rounded-full opacity-0 transition-opacity duration-300 bg-red-600 bg-opacity-20 active-glow"></div>
-                </div>
-              </li>
+              {/* Progress indicator (will be animated with scroll) */}
+              <div className="absolute top-[75px] left-1/2 transform -translate-x-1/2 w-[2px] bg-red-600" id="progress-line"></div>
+              <NavbarMarker
+                href="#landing"
+                label="Landing"
+                icon={<HomeSimple width={16} height={16} className="text-red-600" />}
+                dataSection="landing"
+              />
+              <NavbarMarker
+                href="#about"
+                label="About"
+                icon={<User width={16} height={16} className="text-red-600" />}
+                dataSection="about"
+              />
+              <NavbarMarker
+                href="#projects"
+                label="Projects"
+                icon={<Folder width={16} height={16} className="text-red-600" />}
+                dataSection="projects"
+              />
+              <NavbarMarker
+                href="#contact"
+                label="Contact"
+                icon={<Mail width={16} height={16} className="text-red-600" />}
+                dataSection="contact"
+              />
             </ul>
           </div>
         </nav>

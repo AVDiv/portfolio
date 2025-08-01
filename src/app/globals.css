@@ -73,3 +73,23 @@ body {
 .auto-scroll-hidden::-webkit-scrollbar {
   display: none;  /* Chrome, Safari and Opera */
 }
+
+/* Active navbar marker styles */
+.marker-button.active {
+  background-color: #dc2626; /* red-600 */
+  border-color: #dc2626;
+  box-shadow: 0 0 20px rgba(220, 38, 38, 0.5), 0 0 40px rgba(220, 38, 38, 0.3);
+  scale: 1.1;
+}
+
+.marker-button.active .active-glow {
+  opacity: 1;
+}
+
+/* Try multiple approaches to change icon color */
+.marker-button.active svg,
+.marker-button.active svg *,
+.marker-button.active [class*="text-red"] {
+  color: #000000 !important;
+  stroke: #000000 !important;
+}
