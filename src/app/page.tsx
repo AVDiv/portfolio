@@ -146,7 +146,6 @@ export default function Home() {
                   // Reset icon color to red when inactive
                   if (icon) {
                     icon.style.setProperty('color', '#dc2626', 'important');
-                    icon.style.setProperty('fill', '#dc2626', 'important');
                     icon.style.setProperty('stroke', '#dc2626', 'important');
                   }
                 }
