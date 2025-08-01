@@ -1,39 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   width="105.63801mm"
-   height="122.01239mm"
-   viewBox="0 0 105.63801 122.01239"
-   version="1.1"
-   id="svg1"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <defs
-     id="defs1">
-    <linearGradient
-       id="swatch42">
-      <stop
-         style="stop-color:#000000;stop-opacity:1;"
-         offset="0"
-         id="stop42" />
-    </linearGradient>
-  </defs>
-  <g
-     id="layer1"
-     transform="translate(-53.356943,-85.329159)">
-    <g
-       id="g83"
-       transform="translate(6.6528143,3.3264071)"
-       style="display:inline">
-      <path
-         d="m 99.494702,82.002747 -52.790576,30.478243 52.791093,30.47876 52.788511,-30.47721 0.0584,0.0336 v -0.002 z"
-         style="fill:#4c28fa;fill-opacity:1;stroke:none;stroke-width:2"
-         id="path82" />
-      <path
-         d="m 152.28555,112.48265 -0.0584,-0.0336 -52.788555,30.47721 0.05581,0.0326 V 203.982 l -0.05684,0.0326 5.17e-4,5.2e-4 52.847458,-30.51184 z"
-         style="fill:#4c28fa;fill-opacity:1;stroke:none;stroke-width:2"
-         id="path83" />
-    </g>
-  </g>
+<svg width="1000" height="1000" viewBox="0 0 1000 1000" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path fill-rule="evenodd" clip-rule="evenodd" d="M314.505 115.625L53 899H143.728L216.065 678.292H525.031L597.368 899H693L426.946 102H342.295L370.548 207.449L496.831 592.462H244.264L355.98 251.864L314.505 115.625Z" fill="black"/>
+<circle cx="868.5" cy="820.5" r="78.5" fill="#FF0000"/>
 </svg>
