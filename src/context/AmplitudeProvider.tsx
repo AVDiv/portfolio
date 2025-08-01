@@ -1,8 +1,8 @@
 "use client";
-
 import React, { createContext, useContext, useEffect, useRef } from 'react';
 import * as amplitude from '@amplitude/analytics-browser';
 import { sessionReplayPlugin } from '@amplitude/plugin-session-replay-browser';
+import { v4 as uuidv4 } from 'uuid';
 
 interface AmplitudeContextType {
   amplitude: typeof amplitude;
@@ -64,7 +64,7 @@ export function AmplitudeProvider({ children }: AmplitudeProviderProps) {
 
       // Set a unique device ID prefix for development to avoid conflicts
       if (!localStorage.getItem('device_id')) {
-        localStorage.setItem('device_id', crypto.randomUUID());
+        localStorage.setItem('device_id', uuidv4());
       }
       const currentDeviceId = localStorage.getItem('device_id');
       amplitude.setDeviceId(isDevelopment? `dev_${currentDeviceId}` :currentDeviceId as string);
