@@ -1,11 +1,9 @@
 import React, { useRef, useEffect, useState } from "react";
 import { animate, createScope, onScroll } from "animejs";
-import DarkVeil from "@/components/Animations/DarkVeil/DarkVeil";
 
 const Contact: React.FC = () => {
   const root = useRef<HTMLDivElement>(null);
   const scope = useRef<any>(null);
-  const backgroundRef = useRef<HTMLDivElement>(null);
   const contactContentRef = useRef<HTMLDivElement>(null);
   
   const [formState, setFormState] = useState({
@@ -50,7 +48,7 @@ const Contact: React.FC = () => {
   // Scroll blur-in animation effect
   useEffect(() => {
     scope.current = createScope({ root }).add(self => {
-      if (root.current && contactContentRef.current && backgroundRef.current) {
+      if (root.current && contactContentRef.current) {
         animate(contactContentRef.current, {
           filter: 'blur(0px)',
           scale: 1.05,
@@ -61,19 +59,6 @@ const Contact: React.FC = () => {
             container: document.body,
             enter: {target: "top", container: "top+=20vh"},
             leave: {target: "center-=35vh", container: "top"},
-            sync: 'outCubic',
-          })
-        });
-
-        animate(backgroundRef.current, {
-          opacity: 0.3,
-          filter: 'blur(0px)',
-          ease: 'outCubic',
-          autoplay: onScroll({
-            target: root.current,
-            container: document.body,
-            enter: {target: "center-=35vh", container: "top+=20vh"},
-            leave: {target: "center-=30vh", container: "top+=20vh"},
             sync: 'outCubic',
           })
         });
@@ -233,23 +218,6 @@ const Contact: React.FC = () => {
             </div>
           </div>
         </div>
-      </div>
-      
-      {/* Background effect */}
-      <div 
-        className="w-full h-full absolute top-0 left-0 z-0 opacity-0 blur-2xl pointer-events-auto" 
-        ref={backgroundRef}
-        style={{ pointerEvents: 'auto' }}
-      >
-        <DarkVeil 
-          hueShift={180}
-          noiseIntensity={0.05}
-          scanlineIntensity={0.05}
-          speed={0.2}
-          scanlineFrequency={0}
-          warpAmount={0.05}
-          resolutionScale={1}
-        />
       </div>
     </section>
   );

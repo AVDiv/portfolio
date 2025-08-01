@@ -1,14 +1,12 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
-import { useLoader } from "@/context/LoaderProvider";
-import { waapi, createScope, onScroll, ScrollObserver } from 'animejs';
+import React, { useEffect, useRef } from "react";
+import { waapi, createScope, onScroll } from 'animejs';
 import Hero from "@/components/Home/Hero";
 import About from "@/components/Home/About";
 import Projects from "@/components/Home/Projects";
 import Contact from "@/components/Home/Contact";
 import Noise from "@/components/Animations/Noise/Noise";
 import { HomeSimple, Folder, User, Mail } from "iconoir-react";
-import { contain } from "three/src/extras/TextureUtils.js";
 
 export default function Home() {
   const root = useRef<HTMLElement>(null);

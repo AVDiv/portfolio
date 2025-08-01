@@ -1,8 +1,8 @@
 import React, { useRef, useEffect } from "react";
 import { animate, createScope, onScroll } from "animejs";
-import Dither from "@/components/Animations/Dither/Dither";
-import ProjectCard from "../Cards/ProjectCard";
+import ProjectCard from "@/components/Cards/ProjectCard";
 import { projects } from "@/data/projects";
+import LightRays from "@/components/Animations/LigthRays/LightRays";
 
 const Projects: React.FC = () => {
   const root = useRef<HTMLDivElement>(null);
@@ -30,7 +30,7 @@ const Projects: React.FC = () => {
         });
 
         animate(backgroundRef.current, {
-          opacity: { from: 0.3, to: 0, ease: 'outCubic' },
+          opacity: { from: 1, to: 0, ease: 'outCubic' },
           filter: { from: 'blur(1.5px)', to: 'blur(30px)', ease: 'outCubic' },
           composition: 'none',
           autoplay: onScroll({
@@ -43,7 +43,7 @@ const Projects: React.FC = () => {
         });
 
         animate(backgroundRef.current, {
-          opacity: { from: 0, to: 0.3, ease: 'outCubic' }, 
+          opacity: { from: 0, to: 1, ease: 'outCubic' }, 
           filter: { from: 'blur(30px)', to: 'blur(1.5px)', ease: 'outCubic' },
           ease: 'outCubic',
           composition: 'add',
@@ -111,20 +111,15 @@ const Projects: React.FC = () => {
         </div>
       </div>
       <div 
-        className="w-full h-full absolute top-0 left-0 z-0 opacity-0 blur-2xl pointer-events-auto" 
+        className="w-full h-full absolute top-0 left-0 z-0 opacity-0 blur-2xl pointer-events-none" 
         ref={backgroundRef}
         style={{ pointerEvents: 'auto' }}
       >
-          <Dither
-            waveColor={[1, 0, 0]}
-            disableAnimation={false}
-            enableMouseInteraction={true}
-            mouseRadius={0.3}
-            colorNum={4}
-            waveAmplitude={0.3}
-            waveFrequency={3}
-            waveSpeed={0.05}
+          <LightRays
+           rayColor="#FF0000"
           />
+      </div>
+      <div className="w-full h-full absolute top-0 left-0 z-5 pointer-events-none bg-gradient-to-t from-5% from-white to-transparent">
       </div>
     </section>
   );
