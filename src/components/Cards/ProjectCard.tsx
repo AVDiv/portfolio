@@ -18,10 +18,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
       <div className="flex flex-col justify-between flex-1">
         <div>
           {/* Project overview text */}
-          <h3 className="text-2xl font-bold text-black mb-3 group-hover:text-red-600 transition-colors">
+          <h3 className="text-xl font-bold text-black mb-3 group-hover:text-red-600 transition-colors">
             {project.title}
           </h3>
-          <p className="text-gray-700 mb-4 leading-relaxed">
+          <p className="text-sm text-gray-700 mb-4 leading-relaxed">
             {project.description}
           </p>
           
@@ -44,7 +44,6 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
             <a 
               href={project.pageUrl}
               className="px-4 py-3 bg-black text-white rounded-lg hover:bg-red-600 transition-colors flex flex-row gap-x-3 items-center"
-              target="_blank"
               rel="noopener noreferrer"
             >
              <MapsArrowDiagonal /> More Details

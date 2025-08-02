@@ -6,7 +6,7 @@ export const projects: Project[] = [
     title: "Storion",
     description: "Bias-aware news aggregation system that informs users about ideological manipulation using custom NLP models and advanced data processing pipelines.",
     technologies: ["Python", "NLP", "Apache Kafka", "Prefect", "Faiss", "HuggingFace", "NER"],
-    pageUrl: "#",
+    pageUrl: "/projects/storion",
     githubUrl: "https://github.com/AVDiv/storion"
   },
   {
@@ -14,7 +14,7 @@ export const projects: Project[] = [
     title: "Pneumetra",
     description: "Real-time air quality monitoring and 7-day forecasting dashboard for Sri Lanka's 25 districts using machine learning and cloud infrastructure.",
     technologies: ["Python", "Snowflake", "GCP", "Streamlit", "LSTM", "Random Forest", "XGBoost", "SARIMA"],
-    pageUrl: "#",
+    // pageUrl: "#",
     githubUrl: "https://github.com/Zaara-Labs/Pneumetra"
   },
   {
@@ -22,7 +22,7 @@ export const projects: Project[] = [
     title: "Gait-based Authentication",
     description: "Machine learning model for user authentication based on acceleration data using advanced feature extraction and genetic algorithms.",
     technologies: ["MATLAB", "SVM", "Genetic Algorithms", "Feature Engineering", "Biometric Security"],
-    pageUrl: "#",
+    // pageUrl: "#",
     githubUrl: "https://github.com/scssandanayake/AI-ML-Coursework/"
   },
   {
@@ -30,7 +30,7 @@ export const projects: Project[] = [
     title: "Process Mining Analysis",
     description: "University student enrollment optimization using process mining techniques to identify bottlenecks and workflow inefficiencies.",
     technologies: ["R", "bupaR", "edeaR", "processmapR", "Alpha Miner", "Heuristic Miner"],
-    pageUrl: "#",
+    // pageUrl: "#",
     githubUrl: "https://github.com/scssandanayake/R-Coursework-V2.0-Process-Mining"
   },
   {
@@ -38,7 +38,7 @@ export const projects: Project[] = [
     title: "Tourbro AI Tour Guide",
     description: "RAG-powered tour recommendation system using LLM integration to provide personalized travel suggestions based on user preferences.",
     technologies: ["Langchain", "Gemini", "NextJS", "NestJS", "RAG", "Vector Databases"],
-    pageUrl: "#",
+    // pageUrl: "#",
     githubUrl: "https://github.com/AVDiv/TourBro-WebApp"
   },
   {
@@ -46,7 +46,7 @@ export const projects: Project[] = [
     title: "ForecastIQ",
     description: "Weather prediction utilizing time series analysis with ARIMA, SARIMA, and Fourier models for accurate forecasting.",
     technologies: ["Python", "ARIMA", "SARIMA", "Fourier Analysis", "Time Series"],
-    pageUrl: "#",
+    // pageUrl: "#",
     githubUrl: "https://github.com/scssandanayake/Weather-Analyzer-And-Predictor"
   }
 ];

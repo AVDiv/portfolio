@@ -74,10 +74,10 @@ const About: React.FC = () => {
         <div className="max-w-7xl mx-auto pointer-events-auto">
           {/* Section header */}
           <div className="mb-16 text-center">
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-black mb-6">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black mb-6">
               About Me<span className="text-red-600">.</span>
             </h2>
-            <p className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto">
               Data Science enthusiast bridging AI innovation with full-stack development to create impactful solutions.
             </p>
           </div>
@@ -86,33 +86,33 @@ const About: React.FC = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 pointer-events-auto">
             {/* Bio column */}
             <div className="space-y-6">
-              <h3 className="text-3xl font-bold text-black">
+              <h3 className="text-2xl font-bold text-black">
                 My Journey<span className="text-red-600">.</span>
               </h3>
-              <p className="text-lg text-gray-700 leading-relaxed">
+              <p className="text-base text-gray-700 leading-relaxed">
                 I'm Avin Divakara, a <strong className="text-red-600">Data Science undergraduate</strong> at the University of Plymouth with a unique blend of AI expertise and full-stack development skills. Currently awaiting graduation for my BSc (Hons) in Data Science, I'm passionate about creating solutions that address real-world challenges.
               </p>
-              <p className="text-lg text-gray-700 leading-relaxed">
+              <p className="text-base text-gray-700 leading-relaxed">
                 My work focuses on <strong>explainable AI systems (XAI)</strong>, <strong>real-time data analytics</strong>, and <strong>innovative machine learning</strong> applications. From developing news aggregation systems that combat ideological manipulation to creating air quality monitoring dashboards for Sri Lanka, I believe in technology's power to drive positive social impact.
               </p>
-              <p className="text-lg text-gray-700 leading-relaxed">
+              <p className="text-base text-gray-700 leading-relaxed">
                 I'm constantly exploring emerging technologies and trying to come up with projects which could get the best out of these technologies like graph databases.
               </p>
-              <p className="text-lg text-gray-700 leading-relaxed">
+              <p className="text-base text-gray-700 leading-relaxed">
                 When I'm not building ML models or developing web applications, you'll find me mentoring students, contributing to open source projects like <strong>Unitary Hack</strong>, or exploring the intersection of ethics and artificial intelligence.
               </p>
             </div>
             
             {/* Skills column */}
             <div className="space-y-6">
-              <h3 className="text-3xl font-bold text-black">
+              <h3 className="text-2xl font-bold text-black">
                 Technical Expertise<span className="text-red-600">.</span>
               </h3>
               
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {skills.map((skillGroup, index) => (
                   <div key={index} className="space-y-3">
-                    <h4 className="text-xl font-semibold text-red-600">{skillGroup.category}</h4>
+                    <h4 className="text-lg font-semibold text-red-600">{skillGroup.category}</h4>
                     <ul className="space-y-2">
                       {skillGroup.items.map((skill, i) => (
                         <li key={i} className="text-gray-700 flex items-center gap-2">
@@ -127,7 +127,7 @@ const About: React.FC = () => {
 
               {/* Achievements highlight */}
               <div className="mt-8 p-6 bg-gray-50 rounded-lg">
-                <h4 className="text-xl font-semibold text-black mb-4">Key Achievements</h4>
+                <h4 className="text-lg font-semibold text-black mb-4">Key Achievements<span className="text-red-600">.</span></h4>
                 <ul className="space-y-2">
                   <li className="text-gray-700 flex items-center gap-2">
                     <span className="w-1.5 h-1.5 bg-red-600 rounded-full"></span>

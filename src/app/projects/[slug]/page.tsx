@@ -64,9 +64,9 @@ export default async function ProjectPage({ params }: { params: Params }) {
             />
           </div>
           <div className='w-full h-full flex flex-col z-20 relative justify-center items-center p-5 pointer-events-none'>
-            <h1 className='text-6xl font-bold'>{frontmatter.title}</h1>
+            <h1 className='text-4xl md:text-5xl font-bold'>{frontmatter.title}</h1>
             {frontmatter.note && (
-              <p className='text-lg pt-3 text-slate-700'>{frontmatter.note}</p>
+              <p className='text-base pt-3 text-slate-700'>{frontmatter.note}</p>
             )}
             {frontmatter.duration && (
               <p className='text-sm pt-1 text-slate-500'>{frontmatter.duration}</p>

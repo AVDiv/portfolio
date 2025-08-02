@@ -81,10 +81,10 @@ const Projects: React.FC = () => {
         <div className="max-w-7xl mx-auto pointer-events-auto">
           {/* Section header */}
           <div className="mb-16 text-center">
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-black mb-6">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-black mb-6">
               Projects<span className="text-red-600">.</span>
             </h2>
-            <p className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto">
+            <p className="text-lg md:text-xl text-gray-700 max-w-3xl mx-auto">
               Data science and AI projects focused on solving real-world challenges with innovative machine learning solutions.
             </p>
           </div>

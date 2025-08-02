@@ -134,12 +134,17 @@ const Hero: React.FC<HeroProps> = ({ rootRefSetter }) => {
             {/* Content overlay */}
             <div className="flex flex-col justify-center items-center absolute inset-0 w-full h-full pointer-events-none" ref={contentOverlayRef}>
               <div className="z-10 pointer-events-auto text-center">
-                <h1 className='text-6xl md:text-7xl lg:text-8xl text-black font-bold mb-4'>
+                <h1 className='text-4xl md:text-5xl lg:text-6xl text-black font-bold mb-6'>
                   Avin Divakara<span className='text-red-600'>.</span>
                 </h1>
-                <p className='text-2xl md:text-3xl lg:text-4xl text-black'>
-                  [AKA. AVDiv]
-                </p>
+                <div className="flex flex-col md:flex-row items-center justify-center gap-3 md:gap-6">
+                  <h2 className='text-xl md:text-2xl lg:text-3xl text-red-600 font-bold'>
+                    AI Engineer & Data Scientist
+                  </h2>
+                  <p className='text-lg md:text-xl lg:text-2xl text-black'>
+                    [AKA. AVDiv]
+                  </p>
+                </div>
               </div>
             </div>
           </div>

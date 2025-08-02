@@ -113,10 +113,10 @@ const Contact: React.FC = () => {
         <div className="max-w-7xl mx-auto pointer-events-auto">
           {/* Section header */}
           <div className="mb-8 md:mb-16 text-center">
-            <h2 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-black mb-4 md:mb-6">
+            <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold text-black mb-4 md:mb-6">
               Contact<span className="text-red-600">.</span>
             </h2>
-            <p className="text-lg md:text-xl lg:text-2xl text-gray-700 max-w-3xl mx-auto">
+            <p className="text-base md:text-lg lg:text-xl text-gray-700 max-w-3xl mx-auto">
               Ready to collaborate on data science projects or discuss innovative AI solutions? Let's connect.
             </p>
           </div>
@@ -125,7 +125,7 @@ const Contact: React.FC = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 pointer-events-auto">
             {/* Form column */}
             <div className="flex flex-col space-y-4 md:space-y-6 bg-white rounded-xl p-6 md:p-8 shadow-lg h-full">
-              <h3 className="text-2xl md:text-3xl font-bold text-black">
+              <h3 className="text-xl md:text-2xl font-bold text-black">
                 Send a Message<span className="text-red-600">.</span>
               </h3>
               
@@ -198,7 +198,7 @@ const Contact: React.FC = () => {
             
             {/* Contact info column */}
             <div className="space-y-6 md:space-y-8">
-              <h3 className="text-2xl md:text-3xl font-bold text-black">
+              <h3 className="text-xl md:text-2xl font-bold text-black">
                 Connect<span className="text-red-600">.</span>
               </h3>
               
@@ -253,7 +253,7 @@ const Contact: React.FC = () => {
               </div>
               
               <div className="mt-6 md:mt-8 p-4 md:p-6 bg-black text-white rounded-xl">
-                <h4 className="text-lg md:text-xl font-bold mb-3 md:mb-4">Let's build something impactful together</h4>
+                <h4 className="text-base md:text-lg font-bold mb-3 md:mb-4">Let's build something impactful together</h4>
                 <p className="text-gray-300 mb-3 md:mb-4 text-sm md:text-base">
                   I'm passionate about creating data-driven solutions that make a real difference. Whether you need:
                 </p>
