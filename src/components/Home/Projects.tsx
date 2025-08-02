@@ -85,7 +85,7 @@ const Projects: React.FC = () => {
               Projects<span className="text-red-600">.</span>
             </h2>
             <p className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto">
-              A collection of my work showcasing creativity, technical skill, and passion for innovation.
+              Data science and AI projects focused on solving real-world challenges with innovative machine learning solutions.
             </p>
           </div>
 
@@ -99,7 +99,7 @@ const Projects: React.FC = () => {
           {/* Additional content to show more work */}
           <div className="mt-20 text-center pointer-events-auto">
             <p className="text-lg text-gray-600 mb-8">
-              Want to see more of my work?
+              Interested in collaborating on data science projects or want to learn more about my work?
             </p>
             <a 
               href="#contact"
