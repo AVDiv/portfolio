@@ -10,10 +10,12 @@ const About: React.FC = () => {
 
   // Skills data
   const skills = [
-    { category: "Frontend", items: ["React", "TypeScript", "Next.js", "Tailwind CSS", "Three.js"] },
-    { category: "Backend", items: ["Node.js", "Express", "Python", "GraphQL", "RESTful APIs"] },
-    { category: "Graphics", items: ["WebGL", "GLSL", "Canvas API", "SVG", "3D Animation"] },
-    { category: "Tools", items: ["Git", "Docker", "AWS", "Figma", "VS Code"] }
+    { category: "Data Science", items: ["Python & R", "MATLAB", "scikit-learn", "Pytorch", "Time Series Forecasting", "Process Mining"] },
+    { category: "AI & ML", items: ["Natural Language Processing", "Computer Vision", "Ensemble Methods", "Deep Learning", "Anomaly Detection"] },
+    { category: "Web Development", items: ["Next.js", "TypeScript", "Node.js", "NestJS", "Flask", "FastAPI"] },
+    { category: "Cloud & DevOps", items: ["Docker", "Kubernetes", "AWS EC2", "CI/CD", "DigitalOcean"] },
+    { category: "Databases", items: ["PostgreSQL", "MongoDB", "Neo4J", "ChromaDB", "MySQL"] },
+    { category: "Data Engineering", items: ["Apache Kafka", "Prefect", "Snowflake", "Apache Airflow" ] },
   ];
 
   // Scroll blur-in animation effect
@@ -76,7 +78,7 @@ const About: React.FC = () => {
               About Me<span className="text-red-600">.</span>
             </h2>
             <p className="text-xl md:text-2xl text-gray-700 max-w-3xl mx-auto">
-              Creative developer with a passion for merging code and design to build immersive digital experiences.
+              Data Science enthusiast bridging AI innovation with full-stack development to create impactful solutions.
             </p>
           </div>
 
@@ -88,23 +90,26 @@ const About: React.FC = () => {
                 My Journey<span className="text-red-600">.</span>
               </h3>
               <p className="text-lg text-gray-700 leading-relaxed">
-                I'm Avin Divakara, a developer focused on creating visually stunning and highly interactive web experiences. With a background in both design and development, I bring a unique perspective to every project.
+                I'm Avin Divakara, a <strong className="text-red-600">Data Science undergraduate</strong> at the University of Plymouth with a unique blend of AI expertise and full-stack development skills. Currently awaiting graduation for my BSc (Hons) in Data Science, I'm passionate about creating solutions that address real-world challenges.
               </p>
               <p className="text-lg text-gray-700 leading-relaxed">
-                My work spans from fluid simulations and 3D graphics to building robust full-stack applications. I'm constantly exploring the boundaries of what's possible on the web, experimenting with new technologies and creative coding techniques.
+                My work focuses on <strong>explainable AI systems (XAI)</strong>, <strong>real-time data analytics</strong>, and <strong>innovative machine learning</strong> applications. From developing news aggregation systems that combat ideological manipulation to creating air quality monitoring dashboards for Sri Lanka, I believe in technology's power to drive positive social impact.
               </p>
               <p className="text-lg text-gray-700 leading-relaxed">
-                When I'm not coding, you'll find me exploring new design trends, contributing to open source projects, or diving into the latest advancements in web technology.
+                I'm constantly exploring emerging technologies and trying to come up with projects which could get the best out of these technologies like graph databases.
+              </p>
+              <p className="text-lg text-gray-700 leading-relaxed">
+                When I'm not building ML models or developing web applications, you'll find me mentoring students, contributing to open source projects like <strong>Unitary Hack</strong>, or exploring the intersection of ethics and artificial intelligence.
               </p>
             </div>
             
             {/* Skills column */}
             <div className="space-y-6">
               <h3 className="text-3xl font-bold text-black">
-                Skills & Expertise<span className="text-red-600">.</span>
+                Technical Expertise<span className="text-red-600">.</span>
               </h3>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {skills.map((skillGroup, index) => (
                   <div key={index} className="space-y-3">
                     <h4 className="text-xl font-semibold text-red-600">{skillGroup.category}</h4>
@@ -118,6 +123,29 @@ const About: React.FC = () => {
                     </ul>
                   </div>
                 ))}
+              </div>
+
+              {/* Achievements highlight */}
+              <div className="mt-8 p-6 bg-gray-50 rounded-lg">
+                <h4 className="text-xl font-semibold text-black mb-4">Key Achievements</h4>
+                <ul className="space-y-2">
+                  <li className="text-gray-700 flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 bg-red-600 rounded-full"></span>
+                    Neo4J Certified Professional
+                  </li>
+                  <li className="text-gray-700 flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 bg-red-600 rounded-full"></span>
+                    IEEE Xtreme 18.0: University Rank #1, Global Rank #520
+                  </li>
+                  <li className="text-gray-700 flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 bg-red-600 rounded-full"></span>
+                    Quantum Computing Open Source Contributor
+                  </li>
+                  <li className="text-gray-700 flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 bg-red-600 rounded-full"></span>
+                    Ex-Volunteer at IEEE NSBM & IEEE Young Professionals Sri Lanka
+                  </li>
+                </ul>
               </div>
             </div>
           </div>
