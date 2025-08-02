@@ -16,6 +16,21 @@ const sometype_mono = Sometype_Mono({
 export const metadata: Metadata = {
   title: "Welcome | AVDiv's Portfolio",
   description: "Learn about Avin.",
+  openGraph: {
+    title: "Welcome | AVDiv's Portfolio",
+    description: "Learn about Avin.",
+    url: "https://avdiv.netlify.app/",
+    siteName: "AVDiv's Portfolio",
+    images: [
+      {
+        url: "https://avdiv.netlify.app/og-image.png",
+        width: 1200,
+        height: 630,
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  }
 };
 
 export default function RootLayout({
