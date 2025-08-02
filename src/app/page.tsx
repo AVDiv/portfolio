@@ -91,7 +91,7 @@ export default function Home() {
                 if (!currentSection || !nextSection) continue;
                 
                 const currentSectionTop = currentSection.offsetTop;
-                const nextSectionTop = nextSection.offsetTop;
+                const nextSectionTop = nextSection.offsetTop * 0.9;
                 const sectionHeight = nextSectionTop - currentSectionTop;
                 
                 if (scrollTop >= currentSectionTop && scrollTop < nextSectionTop) {
