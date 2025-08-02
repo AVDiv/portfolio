@@ -1,0 +1,71 @@
+---
+title: "Storion"
+note: "Bias-aware news aggregation system that informs users about ideological manipulation"
+duration: "2024"
+---
+
+Storion is an intelligent news aggregation platform designed to combat misinformation and ideological manipulation by providing users with comprehensive bias analysis and diverse perspectives on current events.
+
+## What is Storion?
+
+In today's digital age, news consumption is heavily influenced by algorithmic filtering and editorial bias. Storion addresses this critical challenge by creating a transparent, bias-aware news ecosystem that empowers users to make informed decisions about the information they consume.
+
+The platform aggregates news from multiple sources and uses advanced Natural Language Processing (NLP) models to analyze articles for:
+- **Ideological bias detection**
+- **Sentiment analysis**
+- **Source credibility assessment**
+- **Perspective diversity**
+
+## Key Features
+
+### Bias Detection & Analysis
+Storion employs custom-trained NLP models to identify and quantify bias in news articles, providing users with clear indicators of potential ideological slant or manipulation tactics.
+
+### Multi-Source Aggregation
+The system collects news from diverse sources across the political spectrum, ensuring users have access to various perspectives on the same story.
+
+### Real-Time Processing
+Using Apache Kafka for data streaming and Prefect for workflow orchestration, Storion processes news articles in real-time, providing up-to-date bias analysis as stories develop.
+
+### Semantic Search & Clustering
+Leveraging Faiss vector databases, the platform can group related articles and enable semantic search capabilities, helping users find comprehensive coverage of topics they care about.
+
+### Named Entity Recognition
+Advanced NER capabilities help identify key people, organizations, and locations mentioned in articles, providing additional context for bias analysis.
+
+## Technology Stack
+
+Storion is built using a modern, scalable architecture:
+
+- **Python**: Core backend development and ML model implementation
+- **Natural Language Processing**: Custom models for bias detection and sentiment analysis
+- **Apache Kafka**: Real-time data streaming and event processing
+- **Prefect**: Workflow orchestration and data pipeline management
+- **Faiss**: Vector similarity search for article clustering and recommendations
+- **HuggingFace**: Pre-trained models and transformers for NLP tasks
+- **Named Entity Recognition**: Entity extraction and analysis
+
+## Impact & Vision
+
+Storion represents a step toward more transparent and democratic news consumption. By making bias visible and providing diverse perspectives, the platform empowers users to:
+
+- Develop more nuanced understanding of complex issues
+- Recognize and counter echo chamber effects
+- Make more informed decisions based on comprehensive information
+- Contribute to a healthier democratic discourse
+
+## Technical Approach
+
+The system employs a sophisticated data processing pipeline that:
+
+1. **Ingests** news articles from multiple RSS feeds and APIs
+2. **Processes** content through NLP models for bias detection
+3. **Stores** articles with metadata in vector databases
+4. **Clusters** related articles for comprehensive topic coverage
+5. **Presents** results through an intuitive interface showing bias indicators
+
+This approach ensures that users receive not just news, but the context needed to critically evaluate the information they consume.
+
+## Future Development
+
+Storion continues to evolve with plans for enhanced machine learning models, expanded source coverage, and improved user experience features that make bias-aware news consumption accessible to everyone.

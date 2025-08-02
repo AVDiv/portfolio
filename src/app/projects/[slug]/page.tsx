@@ -73,9 +73,11 @@ export default async function ProjectPage({ params }: { params: Params }) {
             )}
           </div>
         </div>
-        <article className="px-10 pb-10">
-          <MDXRemote source={content} components={components} />
-        </article>
+        <div className='w-full h-full flex flex-col items-center justify-start pt-10 px-5'>
+          <article className="px-10 pb-10 w-[320px] sm:w-[640px] md:w-[1280px]">
+            <MDXRemote source={content} components={components} />
+          </article>
+        </div>
       </main>
     </div>
   )
