@@ -16,7 +16,6 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['iconoir-react'],
     webpackMemoryOptimizations: true,
-    nextScriptWorkers: true,
   },
   serverExternalPackages: [
     "@tailwindcss/postcss",
