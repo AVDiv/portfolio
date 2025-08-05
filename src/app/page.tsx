@@ -40,7 +40,7 @@ export default function Home() {
           padding: getResponsivePadding(),
           ease: 'linear',
           autoplay: onScroll({
-            target: heroRootRef.current,
+            target: heroRootRef.current!,
             container: document.body,
             enter: {target: "top", container: "top"},
             leave: {target: "bottom", container: "bottom"},
@@ -52,7 +52,7 @@ export default function Home() {
           borderRadius: `8px`,
           ease: 'linear',
           autoplay: onScroll({
-            target: heroRootRef.current,
+            target: heroRootRef.current!,
             container: document.body,
             enter: {target: "top", container: "top"},
             leave: {target: "bottom", container: "bottom"},
@@ -86,17 +86,19 @@ export default function Home() {
         };
 
         const animateNavbar = () => {
-          animate(navbarRef.current, {
-            ...getNavbarStyles(),
-            ease: 'linear',
-            autoplay: onScroll({
-              target: heroRootRef.current,
-              container: document.body,
-              enter: {target: "top", container: "top"},
-              leave: {target: "bottom", container: "bottom"},
-              sync: 'linear',
-            })
-          });
+          if (navbarRef.current) {
+            animate(navbarRef.current, {
+              ...getNavbarStyles(),
+              ease: 'linear',
+              autoplay: onScroll({
+                target: heroRootRef.current!,
+                container: document.body,
+                enter: {target: "top", container: "top"},
+                leave: {target: "bottom", container: "bottom"},
+                sync: 'linear',
+              })
+            });
+          }
         };
 
         // Initial navbar animation
