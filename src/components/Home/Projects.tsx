@@ -24,7 +24,7 @@ const Projects: React.FC = () => {
             target: root.current,
             container: document.body,
             enter: {target: "top", container: "top+=20vh"},
-            leave: {target: "center-=35vh", container: "top"},
+            leave: {target: "top+=15vh", container: "top"},
             sync: 'outCubic',
           })
         });

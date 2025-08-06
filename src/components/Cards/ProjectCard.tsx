@@ -1,6 +1,7 @@
 import React from "react";
 import Project from "@/types/project";
 import { MapsArrowDiagonal, Repository } from "iconoir-react";
+import Image from "next/image";
 
 interface ProjectCardProps {
   project: Project;
@@ -10,10 +11,26 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
   return (
     <div className="group bg-white/80 backdrop-blur-2xl border border-white/30 rounded-lg p-6 hover:shadow-xl hover:bg-white/60 transition-all duration-300 hover:-translate-y-2 flex flex-col h-full">
       {/* Project image placeholder */}
-      <div className="w-full h-48 bg-gradient-to-br from-gray-100/50 to-gray-200/50 rounded-lg mb-6 flex items-center justify-center backdrop-blur-sm">
-        <span className="text-gray-600 text-sm">Project Image</span>
-      </div>
-      
+      {project.image ? (
+        <Image
+          src={project.image!}
+          alt={project.title}
+          className="w-full h-48 object-cover rounded-lg mb-6 group-hover:scale-105 transition-transform duration-300"
+          loading="lazy"
+          width={600}
+          height={400}
+          style={{ objectFit: 'cover', borderRadius: '0.5rem' }}
+          onError={(e) => {
+            e.currentTarget.src = '/images/project-placeholder.png'; // Fallback image
+            e.currentTarget.alt = 'Project Image Placeholder';
+          }}
+        />
+      ):(
+        <div className="w-full h-48 bg-gradient-to-br from-gray-100/50 to-gray-200/50 rounded-lg mb-6 flex items-center justify-center backdrop-blur-sm">
+          <span className="text-gray-600 text-sm">Project Image</span>
+        </div>
+      )}
+
       {/* Project info */}
       <div className="flex flex-col justify-between flex-1">
         <div>
