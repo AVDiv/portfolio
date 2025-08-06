@@ -6,10 +6,6 @@ duration: "2024"
 
 import { ProjectContent } from '@/components/ProjectDetails/ProjectContent';
 
-# Storion
-
-Storion is an intelligent news aggregation platform designed to combat misinformation and ideological manipulation by providing users with comprehensive bias analysis and diverse perspectives on current events.
-
 <ProjectContent 
   images={[
     {
@@ -51,14 +47,39 @@ Storion is an intelligent news aggregation platform designed to combat misinform
   ]}
   links={[
     {
-      url: "https://github.com/yourusername/storion",
+      url: "https://github.com/AVDiv/storion",
       icon: 'github',
-      text: "View Source Code"
+      text: "Storion Monorepo (Source Code)"
     },
     {
-      url: "https://storion-demo.vercel.app",
+      url: "https://github.com/AVDiv/storion-aggregation-workflow/",
       icon: 'github',
-      text: "Live Demo"
+      text: "Aggregation Workflow (Source Code)"
+    },
+    {
+      url: "https://github.com/AVDiv/news_extractor_engine/",
+      icon: 'github',
+      text: "News Collection Engine (Source Code)"
+    },
+    {
+      url: "https://github.com/AVDiv/storion-backend/",
+      icon: 'github',
+      text: "Backend (Source Code)"
+    },
+    {
+      url: "https://github.com/AVDiv/storion-mobile-app/",
+      icon: 'github',
+      text: "Mobile App (Source Code)"
+    },
+    {
+      url: "https://github.com/AVDiv/storion_aggregation_analysis/",
+      icon: 'github',
+      text: "Analysis & Method Experimenting (Source Code)"
+    },
+    {
+      url: "https://github.com/AVDiv/storion-source-collector/",
+      icon: 'github',
+      text: "Source Collection (Source Code)"
     },
     {
       url: "https://devpost.com/software/storion",
@@ -132,13 +153,11 @@ Storion is an intelligent news aggregation platform designed to combat misinform
 
 ## What is Storion?
 
-In today's digital age, news consumption is heavily influenced by algorithmic filtering and editorial bias. Storion addresses this critical challenge by creating a transparent, bias-aware news ecosystem that empowers users to make informed decisions about the information they consume.
+Nowadays, Most people live fast moving lives. It is important to be updated, but it’s also required to do it in a short time. News aggregators only group news into 1 place, but it does not analyze those articles to give the readers a proper idea of the dimensions of ideology placed on that space of the news event. This is where a bias-aware news aggregator comes in. 
 
-The platform aggregates news from multiple sources and uses advanced Natural Language Processing (NLP) models to analyze articles for:
-- **Ideological bias detection**
-- **Sentiment analysis**
-- **Source credibility assessment**
-- **Perspective diversity**
+Storion is a platform that intelligently processes and presents news content to readers by collecting data from many sources, processing them and presenting them on an app.
+
+The platform aggregates news from multiple sources and uses advanced Natural Language Processing (NLP) models to analyze articles for media bias (for the moment only political bias, & language bias) and summarizes content from various perspectives.
 
 ## Key Features
 
@@ -146,16 +165,16 @@ The platform aggregates news from multiple sources and uses advanced Natural Lan
 Storion employs custom-trained NLP models to identify and quantify bias in news articles, providing users with clear indicators of potential ideological slant or manipulation tactics.
 
 ### Multi-Source Aggregation
-The system collects news from diverse sources across the political spectrum, ensuring users have access to various perspectives on the same story.
+The system collects news from diverse sources across the spectrum, ensuring users have access to various perspectives on the same story.
 
-### Real-Time Processing
+### Near Real-Time Processing
 Using Apache Kafka for data streaming and Prefect for workflow orchestration, Storion processes news articles in real-time, providing up-to-date bias analysis as stories develop.
 
-### Semantic Search & Clustering
-Leveraging Faiss vector databases, the platform can group related articles and enable semantic search capabilities, helping users find comprehensive coverage of topics they care about.
+### Article Clustering
+The platform can group related articles by leveraging a custom clustering algorithm (AKA. KENEC) that matches article content based aspects like keywords, NER, and semantic similarity.
 
-### Named Entity Recognition
-Advanced NER capabilities help identify key people, organizations, and locations mentioned in articles, providing additional context for bias analysis.
+### Content Filtration
+The system filters out irrelevant content within articles which are in the content as a result of the scraping process (such as Advertisements, etc.), using advanced text processing techniques.
 
 ## Technical Approach
 
@@ -185,31 +204,3 @@ Storion represents a step toward more transparent and democratic news consumptio
 - Recognize and counter echo chamber effects
 - Make more informed decisions based on comprehensive information
 - Contribute to a healthier democratic discourse
-
-### Measurable Outcomes
-
-- **User Engagement**: 40% increase in time spent reading diverse perspectives
-- **Bias Awareness**: 65% of users report better understanding of news bias
-- **Source Diversity**: Users access 3x more unique news sources
-- **Community Growth**: 25K+ active monthly users
-
-## Future Development
-
-Storion continues to evolve with plans for enhanced machine learning models, expanded source coverage, and improved user experience features that make bias-aware news consumption accessible to everyone.
-
-### Upcoming Features
-
-1. **Enhanced ML Models**
-   - Improved bias detection accuracy
-   - Multi-language support
-   - Real-time fact-checking integration
-
-2. **User Experience**
-   - Personalized news feeds
-   - Interactive bias visualization
-   - Mobile application
-
-3. **Platform Expansion**
-   - API access for researchers
-   - Browser extension
-   - Educational institution partnerships
