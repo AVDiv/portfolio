@@ -1,7 +1,8 @@
 import type { MDXComponents } from 'mdx/types'
- 
-const components: MDXComponents = {}
+import { ProjectContent } from './components/ProjectDetails/ProjectContent'
  
 export function useMDXComponents(): MDXComponents {
-  return components
+  return {
+    ProjectContent
+  }
 }
