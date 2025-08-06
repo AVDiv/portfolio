@@ -6,7 +6,7 @@ export const projects: Project[] = [
     title: "Storion",
     description: "Bias-aware news aggregation system that informs users about ideological manipulation using custom NLP models and advanced data processing pipelines.",
     technologies: ["Python", "NLP", "Apache Kafka", "Prefect", "Faiss", "HuggingFace", "NER"],
-    // image: "projects/storion.png",
+    image: "/thumbnails/storion.jpg",
     pageUrl: "/projects/storion",
     githubUrl: "https://github.com/AVDiv/storion"
   },
@@ -51,6 +51,7 @@ export const projects: Project[] = [
     title: "Tourbro AI Tour Guide",
     description: "RAG-powered tour recommendation system using LLM integration to provide personalized travel suggestions based on user preferences.",
     technologies: ["Langchain", "Gemini", "NextJS", "NestJS", "RAG", "Vector Databases"],
+    image: "/thumbnails/tourbro.png",
     // pageUrl: "#",
     githubUrl: "https://github.com/AVDiv/TourBro-WebApp"
   },
