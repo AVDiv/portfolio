@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-import { NavArrowLeft, NavArrowRight, Xmark, ArrowEnlargeTag } from 'iconoir-react';
+import { NavArrowLeft, NavArrowRight, Xmark, ArrowEnlargeTag, GithubCircle, Page } from 'iconoir-react';
 
 interface TechStack {
   category: string;
@@ -194,18 +194,16 @@ export function ProjectContent({
                         rel="noopener noreferrer"
                         className="group flex items-center gap-3 p-3 rounded-lg 
                           bg-slate-300 border border-slate-200
-                          transition-colors hover:border-red-900/50 hover:bg-black"
+                          transition-colors duration-500 hover:border-red-900/50 hover:bg-black"
                       >
                         <div className="w-5 h-5">
-                          <Image
-                            src={link.icon}
-                            alt=""
-                            width={20}
-                            height={20}
-                            className="w-full h-full object-contain"
-                          />
+                          {link.icon === 'github' ? (
+                            <GithubCircle className="w-full h-full text-red-700 group-hover:text-white transition-colors duration-500" />
+                          ) : link.icon === 'page' ? (
+                            <Page className="w-full h-full text-red-700 group-hover:text-white transition-colors duration-500" />
+                          ) : null}
                         </div>
-                        <span className="text-sm text-black font-semibold group-hover:text-white">
+                        <span className="text-sm text-black font-semibold group-hover:text-white transition-colors duration-500">
                           {link.text}
                         </span>
                       </a>
