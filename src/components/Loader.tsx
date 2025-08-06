@@ -13,7 +13,7 @@ interface LoaderProps {
 
 const Loader = forwardRef<LoaderHandle, LoaderProps>(({ onComplete }, ref) => {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
-  const [displayedMessages, setDisplayedMessages] = useState<string[]>([]);
+  const [displayedMessages, setDisplayedMessages] = useState<Array<{ message: string; timestamp: number }>>([]);
   const [isCompleted, setIsCompleted] = useState(false);
   const [forceCompleteFlag, setForceCompleteFlag] = useState(false);
 
@@ -31,7 +31,10 @@ const Loader = forwardRef<LoaderHandle, LoaderProps>(({ onComplete }, ref) => {
     const showNextMessage = () => {
       if (currentMessageIndex < bootMessages.length && !forceCompleteFlag) {
         const currentMessage = bootMessages[currentMessageIndex];
-        setDisplayedMessages(prev => [...prev, currentMessage.message]);
+        setDisplayedMessages(prev => [...prev, { 
+          message: currentMessage.message, 
+          timestamp: Date.now() / 1000 
+        }]);
         setCurrentMessageIndex(prev => prev + 1);
         
         // Schedule next message with appropriate delay
@@ -62,9 +65,9 @@ const Loader = forwardRef<LoaderHandle, LoaderProps>(({ onComplete }, ref) => {
     <div className="fixed inset-0 bg-black flex items-center justify-center z-50 h-full w-full overflow-hidden">
       <div className="w-full max-w-4xl h-full flex flex-col font-mono text-green-400 text-sm p-8">
         <div className="flex-1 overflow-y-auto">
-          {displayedMessages.map((message, index) => (
+          {displayedMessages.map((item, index) => (
             <div key={index} className="mb-1 whitespace-pre-wrap">
-              <span className="text-green-300">[{(Date.now() / 1000).toFixed(6)}]</span> {message}
+              <span className="text-green-300">[{item.timestamp.toFixed(6)}]</span> {item.message}
             </div>
           ))}
           <div ref={messagesEndRef} />
