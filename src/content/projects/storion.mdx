@@ -90,7 +90,7 @@ import { ProjectContent } from '@/components/ProjectDetails/ProjectContent';
   capabilities={[
     {
       title: "Real-time news analysis and bias detection",
-      description: "Analyze news articles as they are published for bias and credibility"
+      description: "Analyze news articles as they are published for bias"
     },
     {
       title: "Multi-source aggregation and clustering",
@@ -108,23 +108,23 @@ import { ProjectContent } from '@/components/ProjectDetails/ProjectContent';
   architectureDetails={[
     {
       title: "Microservices Architecture",
-      description: "Distributed system with independent services for ingestion, processing, and analysis"
+      description: "Distributed system with independent services for collection, processing, and serving"
     },
     {
       title: "Event-Driven Design",
       description: "Kafka-based messaging system for real-time data flow and processing"
     },
     {
-      title: "Vector Search",
-      description: "Faiss-powered similarity search for efficient article clustering"
+      title: "Content Filtration",
+      description: "Faiss-powered similarity search for efficient article content block filtration"
     },
     {
-      title: "Caching Strategy",
-      description: "Redis-based caching for frequently accessed data and analysis results"
+      title: "News Clustering",
+      description: "Use of Neo4j and custom algorithms for clustering related articles based on content"
     },
     {
-      title: "Load Balancing",
-      description: "Kubernetes orchestration for optimal resource distribution and scaling"
+      title: "Workflow Orchestration",
+      description: "Prefect-based orchestration for managing complex data workflows for news aggregation, analysis, and clustering, etc."
     }
   ]}
   techStack={[
