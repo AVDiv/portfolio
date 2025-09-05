@@ -7,7 +7,7 @@ interface CollapsibleSidebarProps {
 }
 
 const ProjectSidebar: React.FC<CollapsibleSidebarProps> = ({ children }) => {
-  const [collapsed, setCollapsed] = useState(false);
+  const [collapsed, setCollapsed] = useState(true);
 
   return (
     <div className='relative h-full'>

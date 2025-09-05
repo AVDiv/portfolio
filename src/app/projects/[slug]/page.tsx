@@ -27,7 +27,7 @@ export default async function ProjectPage({ params }: { params: Params }) {
   const { content, headings, frontmatter } = await getProjectWithOutline((await params).slug)
   const components = useMDXComponents();
   return (
-    <div className="flex flex-col lg:flex-row bg-black p-2 sm:p-3 md:p-4 lg:p-5 w-screen min-h-screen">
+    <div className="flex flex-col lg:flex-row bg-black p-2 pb-2 pt-16 sm:p-3 sm:pb-3 sm:pt-20 md:p-4 md:pb-4 md:pt-24 lg:p-5 lg:pb-5 lg:pt-28 w-screen min-h-screen">
       <div className="fixed top-0 left-0 h-full w-screen z-20 pointer-events-none">
         <Noise 
           patternSize={1}
@@ -37,6 +37,9 @@ export default async function ProjectPage({ params }: { params: Params }) {
           patternAlpha={20}
         />
       </div>
+      <a href="/" className="absolute top-6 sm:top-8 md:top-10 lg:top-12 left-1/2 -translate-x-1/2 z-30">
+        <img src="/logo-w.svg" alt="Logo" className="h-6 sm:h-8 md:h-10 lg:h-12 w-auto" />
+      </a>
       <ProjectSidebar>
         {headings.map((heading) => (
           <a 
